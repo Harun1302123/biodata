@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accordion Example</title>
+    <style>
+
+      input[type="text"], input[type="number"], input[type="email"], 
+			input[type="url"], input[type="password"], input[type="search"], input[type=reset], 
+			input[type=tel], input[type=date], select, textarea 
+      {
+        width: 60%;
+      }
+      
+      .custom-input {
+        margin: 2px;
+        padding: 10px;
+        width: 60%;
+        font-size: 17px;
+        border: 1px solid #aaaaaa;
+      }
+
+      .custom-input-label {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid #aaaaaa;
+      }
+
+      .editable-label-input {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        font-size: 18px;
+        background-color: transparent;
+        text-align: left;
+      }
+
+      .input-group {
+        display: inline-block;
+        width: 30%;
+      }
+
+      .col-2 {
+        display: inline-block;
+        width: 30%;
+      }
+
+      .col-1 {
+        display: inline-block;
+        width: 26%;
+      }
+
+      /* Accordion styles start */
+      .custom-accordion-header {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        text-align: left;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        width: 100%;
+        transition: background-color 0.3s ease;
+      }
+
+      .custom-accordion-header:hover {
+        background-color: #0056b3;
+      }
+
+      .custom-accordion-content {
+        padding: 5px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        box-shadow: none !important;
+      }
+
+      .accordion-content-body{
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      .navigation-buttons {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .navigation-buttons button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin: 0 5px;
+      }
+
+      .navigation-buttons button:hover {
+        background-color: #0056b3;
+      }
+
+      .navigation-buttons button:disabled {
+        background-color: #d3d3d3;
+        cursor: not-allowed;
+      }
+
+      /* Accordion styles end */
+
+      /* Add row styles start */
+      .field-container {
+        margin-bottom: 10px;
+      }
+      .remove-button {
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 7px 10px;
+        border-radius: 50%;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+      .add-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: green;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      /* Add row styles end */
+
+      /* Container for the toggle switch */
+      .toggle-container {
+        display: flex;
+        align-items: center;
+      }
+
+      /* Hide the default checkbox */
+      .toggle-checkbox {
+        display: none;
+      }
+
+      /* Styling for the label */
+      .toggle-label {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        width: 42px;
+        height: 16px;
+      }
+
+      /* Styling for the slider */
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      /* Styling for the slider before it's checked */
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        background-color: white;
+        transition: 0.4s;
+      }
+
+      /* Change slider background color and position when checked */
+      .toggle-checkbox:checked + .toggle-label .toggle-slider {
+        background-color: #4caf50;
+      }
+
+      .toggle-checkbox:checked + .toggle-label .toggle-slider:before {
+        transform: translateX(26px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="custom-accordion">
+      <div class="custom-accordion-item" id="section1">
+        <button class="custom-accordion-header" style="background-color: green">
+          Personal Details
+        </button>
+        <div class="custom-accordion-content">
+          <div class="accordion-content-body">
+            <!-- Name input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Name" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Name" />
+            <!-- Name input field end -->
+  
+            <!-- Date of birth input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label">&#9998;</label>
+              <input
+                type="text"
+                class="editable-label-input"
+                value="Date of birth"
+              />
+            </div>
+            <input
+              type="date"
+              class="custom-input"
+              placeholder="Enter Date of birth"
+            />
+            <!-- Date of birth input field end -->
+  
+            <div id="fields-container">
+              <!-- Fields will be added here -->
+            </div>
+            <button class="add-button" onclick="addField()">Add New Field</button>
+  
+            <div class="navigation-buttons">
+              <button class="prevBtn" style="display: none" disabled>
+                Previous
+              </button>
+              <button class="nextBtn">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="custom-accordion-item" id="section2">
+        <button
+          class="custom-accordion-header"
+          style="background-color: purple"
+        >
+          Family Details
+        </button>
+        <div class="custom-accordion-content">
+          <p>This is the content of section 2.</p>
+          <div class="navigation-buttons">
+            <button class="prevBtn">Previous</button>
+            <button class="nextBtn">Next</button>
+          </div>
+        </div>
+      </div>
+      <div class="custom-accordion-item" id="section3">
+        <button
+          class="custom-accordion-header"
+          style="background-color: orange"
+        >
+          Contact Details
+        </button>
+        <div class="custom-accordion-content">
+          <p>This is the content of section 3.</p>
+          <div class="navigation-buttons">
+            <button class="prevBtn">Previous</button>
+            <button class="nextBtn" disabled style="display: none">Next</button>
+            <button style="background-color: green"><a href="/testimonial" style="color: white; text-decoration: none">Submit</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const headers = document.querySelectorAll(".custom-accordion-header");
+        const contents = document.querySelectorAll(".custom-accordion-content");
+        const allPrevBtns = document.querySelectorAll(".prevBtn");
+        const allNextBtns = document.querySelectorAll(".nextBtn");
+
+        let currentIndex = 0;
+
+        function openSection(index) {
+          contents.forEach((content, i) => {
+            if (i === index) {
+              content.style.maxHeight = "100%";
+              headers[i].classList.add("active");
+            } else {
+              content.style.maxHeight = null;
+              headers[i].classList.remove("active");
+            }
+          });
+          updateButtons(index);
+        }
+
+        function updateButtons(index) {
+          allPrevBtns.forEach((btn, i) => {
+            btn.disabled = i !== index && i < index;
+          });
+          allNextBtns.forEach((btn, i) => {
+            btn.disabled = i !== index && i > index;
+          });
+        }
+
+        headers.forEach((header, index) => {
+          header.addEventListener("click", () => {
+            openSection(index);
+            currentIndex = index;
+          });
+        });
+
+        allPrevBtns.forEach((btn, index) => {
+          btn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+              currentIndex--;
+              openSection(currentIndex);
+            }
+          });
+        });
+
+        allNextBtns.forEach((btn, index) => {
+          btn.addEventListener("click", () => {
+            if (currentIndex < contents.length - 1) {
+              currentIndex++;
+              openSection(currentIndex);
+            }
+          });
+        });
+
+        // Open the first section by default
+        openSection(0);
+      });
+
+      function addField() {
+        // get row number
+        const row =
+          document.getElementById("fields-container").children.length + 1;
+
+        const container = document.getElementById("fields-container");
+
+        // Create a new div for the field
+        const fieldDiv = document.createElement("div");
+        // fieldDiv.classList.add('field-container');
+
+        // Create a remove button
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "X";
+        removeButton.classList.add("remove-button");
+
+        // Create a new input field
+        const newField = document.createElement("span");
+        // newField.className = 'col-2';
+
+        // Add the label and input elements to the new div
+        newField.innerHTML = `
+              <div class="col-1">
+                <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
+              </div>
+              <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
+            `;
+
+        removeButton.onclick = function () {
+          container.removeChild(fieldDiv);
+        };
+
+        fieldDiv.appendChild(removeButton);
+        fieldDiv.appendChild(newField);
+
+        // Append the field container to the main container
+        container.appendChild(fieldDiv);
+
+        const labelInputAddRow = document.getElementById(
+          "editable-label-addrow-" + row
+        );
+        const inputFieldAddRow = document.getElementById(
+          "input-field-addrow-" + row
+        );
+
+        labelInputAddRow.addEventListener("input", function () {
+          inputFieldAddRow.placeholder = `Enter ${labelInputAddRow.value} `;
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Select all input groups
+        const inputGroups = document.querySelectorAll(".input-group");
+
+        inputGroups.forEach((group) => {
+          const labelInput = group.querySelector(".editable-label-input");
+          const inputField = group.nextElementSibling; // Assuming the input field is immediately after the group
+          const checkbox = group.querySelector(".toggle-checkbox");
+
+          // Update checkbox and placeholder
+          inputField.addEventListener("input", function () {
+            checkbox.checked = true;
+          });
+
+          labelInput.addEventListener("input", function () {
+            inputField.placeholder = `Enter ${labelInput.value}`;
+          });
+
+          // Ensure the checkbox toggle working correctly
+          const toggleLabel = group.querySelector(".toggle-label");
+          toggleLabel.addEventListener("click", function () {
+            checkbox.checked = !checkbox.checked;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
