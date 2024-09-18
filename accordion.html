@@ -201,8 +201,8 @@
               <label class="toggle-label">
                 <span class="toggle-slider"></span>
               </label>
-              <label class="editable-label">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Name" />
+              <label class="editable-label" for="name">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Name" id="name" name="name" />
             </div>
             <input type="text" class="custom-input" placeholder="Enter Name" />
             <!-- Name input field end -->
@@ -213,11 +213,13 @@
               <label class="toggle-label">
                 <span class="toggle-slider"></span>
               </label>
-              <label class="editable-label">&#9998;</label>
+              <label class="editable-label" for="date_of_birth">&#9998;</label>
               <input
                 type="text"
                 class="editable-label-input"
                 value="Date of birth"
+                id="date_of_birth"
+                name="date_of_birth"
               />
             </div>
             <input
@@ -226,6 +228,52 @@
               placeholder="Enter Date of birth"
             />
             <!-- Date of birth input field end -->
+            
+            <!-- Time of birth input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="time_of_birth">&#9998;</label>
+              <input
+                type="text"
+                class="editable-label-input"
+                value="Time of birth"
+                id="time_of_birth"
+                name="time_of_birth"
+              />
+            </div>
+            <input
+              type="time"
+              class="custom-input"
+              placeholder="Enter Time of birth"
+            />
+            <!-- Time of birth input field end -->
+            
+            <!-- Place of birth input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="place_of_birth">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Place of birth" id="place_of_birth" name="place_of_birth" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Place of birth" />
+            <!-- Place of birth input field end -->
+
+            <!-- Rashi input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="rashi">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Rashi" id="rashi" name="rashi" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Rashi" />
+            <!-- Rashi input field end -->
   
             <div id="fields-container">
               <!-- Fields will be added here -->
@@ -250,6 +298,67 @@
         </button>
         <div class="custom-accordion-content">
           <p>This is the content of section 2.</p>
+            <!-- Father Name input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="father_name">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Father Name" id="father_name" name="father_name" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Father Name" />
+            <!-- Father Name input field end -->
+
+            
+            <!-- Father's Occupation input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="father_occupation">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Father's Occupation" id="father_occupation" name="father_occupation" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Father's Occupation" />
+            <!-- Father's Occupation input field end -->
+
+            <!-- Mother Name input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="mother_name">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Mother Name" id="mother_name" name="mother_name" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Mother Name" />
+            <!-- Mother Name input field end -->
+             
+            <!-- Mother's Occupation input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="mother_occupation">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Mother's Occupation" id="mother_occupation" name="mother_occupation" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Mother's Occupation" />
+            <!-- Mother's Occupation input field end -->
+             
+            <!-- Brother Name (Elder) input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="brother_name_elder">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Brother Name (Elder)" id="brother_name_elder" name="brother_name_elder" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Brother Name (Elder)" />
+            <!-- Brother Name (Elder) input field end -->
+
           <div class="navigation-buttons">
             <button class="prevBtn">Previous</button>
             <button class="nextBtn">Next</button>
@@ -265,6 +374,48 @@
         </button>
         <div class="custom-accordion-content">
           <p>This is the content of section 3.</p>
+            <!-- Contact Number input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="contact_number">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Contact Number" id="contact_number" name="contact_number" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Contact Number" />
+            <!-- Contact Number input field end -->
+             
+            <!-- Contact Address input field start -->
+            <div class="input-group">
+              <input type="checkbox" class="toggle-checkbox" />
+              <label class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+              <label class="editable-label" for="contact_address">&#9998;</label>
+              <input type="text" class="editable-label-input" value="Contact Address" id="contact_address" name="contact_address" />
+            </div>
+            <input type="text" class="custom-input" placeholder="Enter Contact Address" />
+            <!-- Contact Address input field end -->
+
+          <div class="navigation-buttons">
+            <button class="prevBtn">Previous</button>
+            <button class="nextBtn">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-accordion-item" id="section3"></div>
+        <button
+          class="custom-accordion-header"
+          style="background-color: rgb(230, 91, 11)"
+        >
+          Single/Multiple Photo
+        </button>
+        <div class="custom-accordion-content">
+          
+          <p>NOTE: Adding photo will increase the File Size of the Biodata. It is recommended to use medium resolution photo.</p>
+
           <div class="navigation-buttons">
             <button class="prevBtn">Previous</button>
             <button class="nextBtn" disabled style="display: none">Next</button>

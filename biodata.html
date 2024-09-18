@@ -1,239 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biodata Templates</title>
     <style>
+      .preview-body {
+        padding: 20px;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
 
+      .custom-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+      }
 
-        .profile-section {
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-        .profile-section img {
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            margin-right: 20px;
-        }
-        .profile-section h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #333;
-        }
-        .section {
-            margin-bottom: 20px;
-        }
-        .section h2 {
-            padding: 10px;
-            margin: 0;
-            font-size: 18px;
-        }
-        .section p {
-            margin: 5px 0;
-        }
-        .color-picker, .template-selector, .pdf-download {
-            margin: 20px 0;
-        }
+      .options button {
+        margin-right: 10px;
+        padding: 10px;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        .template1{
-            border: 10px solid #00796b;
-        }
-        .template1 h2 {
-            border-top: 5px solid #00796b;
-        }
-        .template2 h2 {
-            background: #00796b;
-        }
-    
-    
-    
+      .options button:hover {
+        background-color: #0056b3;
+      }
+
+      .custom-content {
+        display: flex;
+        margin-top: 20px;
+      }
+
+      .color-picker {
+        width: 200px;
+        padding: 10px;
+      }
+
+      .color-picker h3 {
+        margin-bottom: 10px;
+      }
+
+      .colors {
+        display: grid;
+        /* grid-template-columns: repeat(4, 1fr); */
+        gap: 5px;
+      }
+
+      .color {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        border: 2px solid #ccc;
+      }
+
+      .color:hover {
+        border-color: #000;
+      }
+
+      .biodata-container {
+        flex-grow: 1;
+        padding-left: 20px;
+      }
+
+      .biodata-frame {
+        padding: 20px;
+        width: 50%;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .custom-header-icon {
+        width: 40px;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .profile-section {
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .profile-section img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        margin-right: 20px;
+      }
+      .profile-section h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .section h2 {
+        padding: 10px;
+        margin: 0;
+        font-size: 18px;
+      }
+      .section p {
+        margin: 5px 0;
+      }
+      .color-picker,
+      .template-selector,
+      .pdf-download {
+        margin: 20px 0;
+      }
+
+      .template1 {
+        border: 10px solid #00796b;
+      }
+      .template1 h2 {
+        border-top: 5px solid #00796b;
+      }
+      .template2 h2 {
+        background: #00796b;
+      }
     </style>
-
-
-</head>
-<body>
-
-
-
-    <div style="margin-bottom: 30px;">
-        <!-- Template Selector -->
-        <div class="template-selector">
-            <label>Choose Template: </label>
-            <input type="radio" value="template1" id="template1" name="template" onchange="handleTemplate(event)" checked>
-            <label for="template1">Template1</label>
-            <input type="radio" value="template2" id="template2" name="template" onchange="handleTemplate(event)">
-            <label for="template2">Template2</label>
+  </head>
+  <body>
+    <div class="preview-body">
+      <div class="custom-header">
+        <span>createmybiodata.com</span>
+        <p>ELEGANT</p>
+        <div class="options">
+          <button>God Icons</button>
+          <button>Add Color</button>
+          <button>Text Style</button>
+          <button>Edit Biodata</button>
+          <button>Help</button>
         </div>
-    
-        <!-- Color Picker -->
+      </div>
+
+      <div class="custom-content">
         <div class="color-picker">
-            <label for="sectionColor">Choose Color: </label>
-            <input type="color" id="sectionColor" name="sectionColor" value="#00796b">
-        </div>
-    
-        <!-- Download Button -->
-        <div class="pdf-download">
-            <button id="downloadPDF">Download as PDF</button>
-        </div>
-    </div>
+          <h3>Select Frame Color</h3>
+          <div class="colors">
+            <div class="color" style="background-color: #ff0000"></div>
+            <div class="color" style="background-color: #00ff00"></div>
+            <div class="color" style="background-color: #0000ff"></div>
+            <!-- Add more colors as needed -->
+          </div>
 
-
-
-    <div class="template1" id="biodata">
-        <div class="profile-section">
-            <img id="profileImage" src="https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg" alt="Profile Photo">
-            <div>
-                <h1>Your Name</h1>
-                <p>Email: your.email@example.com</p>
-                <p>Phone: +1234567890</p>
-                <p>Address: Your Address, City, Country</p>
+          <div style="margin-bottom: 30px">
+            <!-- Template Selector -->
+            <div class="template-selector">
+              <label>Choose Template: </label>
+              <input
+                type="radio"
+                value="template1"
+                id="template1"
+                name="template"
+                onchange="handleTemplate(event)"
+                checked
+              />
+              <label for="template1">Template1</label>
+              <input
+                type="radio"
+                value="template2"
+                id="template2"
+                name="template"
+                onchange="handleTemplate(event)"
+              />
+              <label for="template2">Template2</label>
             </div>
+
+            <!-- Color Picker -->
+            <div class="color-picker">
+              <label for="sectionColor">Choose Color: </label>
+              <input
+                type="color"
+                id="sectionColor"
+                name="sectionColor"
+                value="#00796b"
+              />
+            </div>
+
+            <!-- Download Button -->
+            <div class="pdf-download">
+              <button id="downloadPDF">Download as PDF</button>
+            </div>
+          </div>
         </div>
 
-        <div class="section">
-            <h2>Personal Details</h2>
-            <ul class="personal">
-                <li><strong>Date of Birth:</strong> January 1, 1990</li>
-                <li><strong>Gender:</strong> Male</li>
-                <li><strong>Nationality:</strong> Your Nationality</li>
-                <li><strong>Marital Status:</strong> Single</li>
-            </ul>
-        </div>
+        <div class="biodata-container">
+          <div class="biodata-frame">
+            <div class="template1" id="biodata">
+              <div class="profile-section">
+                <img
+                  id="profileImage"
+                  src="https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
+                  alt="Profile Photo"
+                />
+                <div>
+                  <h1>Your Name</h1>
+                  <p>Email: your.email@example.com</p>
+                  <p>Phone: +1234567890</p>
+                  <p>Address: Your Address, City, Country</p>
+                </div>
+              </div>
 
-        <div class="section">
-            <h2>Educational Background</h2>
-            <ul class="education">
-                <li><strong>Degree:</strong> Bachelor of Science in Computer Science</li>
-                <li><strong>Institution:</strong> Example University</li>
-                <li><strong>Graduation Year:</strong> 2012</li>
-            </ul>
-        </div>
+              <div class="section">
+                <h2>Personal Details</h2>
+                <ul class="personal">
+                  <li><strong>Date of Birth:</strong> January 1, 1990</li>
+                  <li><strong>Gender:</strong> Male</li>
+                  <li><strong>Nationality:</strong> Your Nationality</li>
+                  <li><strong>Marital Status:</strong> Single</li>
+                </ul>
+              </div>
 
-        <div class="section">
-            <h2>Professional Experience</h2>
-            <ul class="experience">
-                <li><strong>Job Title:</strong> Software Developer</li>
-                <li><strong>Company:</strong> Example Company</li>
-                <li><strong>Duration:</strong> June 2015 - Present</li>
-                <li><strong>Responsibilities:</strong> Developing and maintaining software applications.</li>
-            </ul>
-        </div>
+              <div class="section">
+                <h2>Educational Background</h2>
+                <ul class="education">
+                  <li>
+                    <strong>Degree:</strong> Bachelor of Science in Computer
+                    Science
+                  </li>
+                  <li><strong>Institution:</strong> Example University</li>
+                  <li><strong>Graduation Year:</strong> 2012</li>
+                </ul>
+              </div>
 
-        <div class="section">
-            <h2>Skills</h2>
-            <ul class="skills">
-                <li>Programming Languages: JavaScript, Python, Java</li>
-                <li>Web Technologies: HTML, CSS, React</li>
-                <li>Tools: Git, Docker, Jenkins</li>
-            </ul>
-        </div>
+              <div class="section">
+                <h2>Professional Experience</h2>
+                <ul class="experience">
+                  <li><strong>Job Title:</strong> Software Developer</li>
+                  <li><strong>Company:</strong> Example Company</li>
+                  <li><strong>Duration:</strong> June 2015 - Present</li>
+                  <li>
+                    <strong>Responsibilities:</strong> Developing and
+                    maintaining software applications.
+                  </li>
+                </ul>
+              </div>
 
-        <div class="section">
-            <h2>Certifications</h2>
-            <ul>
-                <li><strong>Certification:</strong> Certified Scrum Master</li>
-                <li><strong>Issuing Authority:</strong> Scrum Alliance</li>
-                <li><strong>Date:</strong> January 2020</li>
-            </ul>
-        </div>
+              <div class="section">
+                <h2>Skills</h2>
+                <ul class="skills">
+                  <li>Programming Languages: JavaScript, Python, Java</li>
+                  <li>Web Technologies: HTML, CSS, React</li>
+                  <li>Tools: Git, Docker, Jenkins</li>
+                </ul>
+              </div>
 
+              <div class="section">
+                <h2>Certifications</h2>
+                <ul>
+                  <li>
+                    <strong>Certification:</strong> Certified Scrum Master
+                  </li>
+                  <li><strong>Issuing Authority:</strong> Scrum Alliance</li>
+                  <li><strong>Date:</strong> January 2020</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    
-
-
 
     <!-- Include html2pdf.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script>
-        document.getElementById('downloadPDF').addEventListener('click', function() {
-            const element = document.getElementById('biodata');
-            const opt = {
-                filename: 'biodata.pdf',
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
+
+      // Retrieve data from session storage
+      const data = JSON.parse(sessionStorage.getItem('formData'));
+
+      if (data) {
+        console.log('Data in session storage', data);
+        // document.getElementById('biodata').innerHTML = `<p><strong>Email:</strong> ${data.email}</p>`;
+
+      } else {
+        console.log("No data found in session storage");
+      }
+
+
+      document
+        .getElementById("downloadPDF")
+        .addEventListener("click", function () {
+          const element = document.getElementById("biodata");
+          const opt = {
+            filename: "biodata.pdf",
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+          };
+          html2pdf().set(opt).from(element).save();
         });
 
-        // template handling start
+      // template handling start
 
-        function selectedColor() {
-            return document.getElementById('sectionColor').value;
+      function selectedColor() {
+        return document.getElementById("sectionColor").value;
+      }
+
+      function selectedTemplate() {
+        return document.querySelector('input[name="template"]:checked').value;
+      }
+
+      function handleTemplate() {
+        const sectionH2 = document.querySelectorAll(".section h2");
+        const biodataContainer = document.getElementById("biodata");
+
+        // Remove any existing template classes
+        biodataContainer.classList.remove("template1", "template2");
+        biodataContainer.classList.add(selectedTemplate());
+
+        if (selectedTemplate() === "template1") {
+          const templateBorder = document.querySelector(".template1");
+          templateBorder.style.borderColor = selectedColor();
         }
 
-        function selectedTemplate() {
-            return document.querySelector('input[name="template"]:checked').value;
-        }
+        sectionH2.forEach((each) => {
+          each.style.borderTopColor = "";
+          each.style.backgroundColor = "";
 
-        function handleTemplate()
-        {
-            const sectionH2 = document.querySelectorAll('.section h2');
-            const biodataContainer = document.getElementById('biodata');
-            
-            // Remove any existing template classes
-            biodataContainer.classList.remove('template1', 'template2');
-            biodataContainer.classList.add(selectedTemplate());
-            
-            if (selectedTemplate() === 'template1') {
-                const templateBorder = document.querySelector('.template1');
-                templateBorder.style.borderColor = selectedColor();
-            }
+          if (selectedTemplate() === "template1") {
+            each.style.borderTopColor = selectedColor();
+          }
 
-            sectionH2.forEach(each => {
-                each.style.borderTopColor = '';
-                each.style.backgroundColor = '';
+          if (selectedTemplate() === "template2") {
+            each.style.backgroundColor = selectedColor();
+          }
+        });
+      }
 
-                if (selectedTemplate() === 'template1') {
-                    each.style.borderTopColor = selectedColor();
-                }
+      handleTemplate();
 
-                if (selectedTemplate() === 'template2') {
-                    each.style.backgroundColor = selectedColor();
-                }
-            });
-        };
-
+      function handleChange(event) {
         handleTemplate();
+      }
 
-        function handleChange(event) {
-            handleTemplate();
+      document
+        .getElementById("sectionColor")
+        .addEventListener("input", function () {
+          handleTemplate();
+        });
+
+      // template handling end
+
+      // Function to convert image to base64
+      function convertImageToBase64(url, callback) {
+        const img = new Image();
+        img.crossOrigin = "Anonymous"; // Required for CORS images
+        img.onload = function () {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          const dataURL = canvas.toDataURL("image/jpeg");
+          callback(dataURL);
         };
+        img.src = url;
+      }
 
-        document.getElementById('sectionColor').addEventListener('input', function() {
-            handleTemplate();
-        });
-
-        // template handling end
-
-
-        
-
-        // Function to convert image to base64
-        function convertImageToBase64(url, callback) {
-            const img = new Image();
-            img.crossOrigin = 'Anonymous'; // Required for CORS images
-            img.onload = function () {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                const dataURL = canvas.toDataURL('image/jpeg');
-                callback(dataURL);
-            };
-            img.src = url;
-        }
-
-        const imageUrl = 'https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg';
-        convertImageToBase64(imageUrl, function(base64Image) {
-            document.getElementById('profileImage').src = base64Image;
-        });
+      const imageUrl =
+        "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg";
+      convertImageToBase64(imageUrl, function (base64Image) {
+        document.getElementById("profileImage").src = base64Image;
+      });
     </script>
-</body>
+  </body>
 </html>

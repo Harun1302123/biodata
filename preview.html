@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" custom-content="width=device-width, initial-scale=1.0">
+    <title>Biodata Design</title>
+    
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.custom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.options button {
+    margin-right: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.options button:hover {
+    background-color: #0056b3;
+}
+
+.custom-content {
+    display: flex;
+    margin-top: 20px;
+}
+
+.color-picker {
+    width: 200px;
+    padding: 10px;
+}
+
+.color-picker h3 {
+    margin-bottom: 10px;
+}
+
+.colors {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.color {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+}
+
+.color:hover {
+    border-color: #000;
+}
+
+.biodata-container {
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.biodata-frame {
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+.custom-header-icon {
+    width: 40px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer label {
+    font-size: 14px;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="preview-body">
+    <div class="custom-header">
+        <span>createmybiodata.com</span>
+        <p>ELEGANT</p>
+        <div class="options">
+            <button>God Icons</button>
+            <button>Add Color</button>
+            <button>Text Style</button>
+            <button>Edit Biodata</button>
+            <button>Help</button>
+        </div>
+    </div>
+
+    <div class="custom-content">
+        <div class="color-picker">
+            <h3>Select Frame Color</h3>
+            <div class="colors">
+                <div class="color" style="background-color: #ff0000;"></div>
+                <div class="color" style="background-color: #00ff00;"></div>
+                <div class="color" style="background-color: #0000ff;"></div>
+                <!-- Add more colors as needed -->
+            </div>
+        </div>
+
+        <div class="biodata-container">
+            <div class="biodata-frame">
+                <p>hello</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <input type="checkbox" id="branding" name="branding" checked>
+        <label for="branding">Remove branding</label>
+    </div>
+
+
+    </div>
+
+    
+</body>
+</html>
