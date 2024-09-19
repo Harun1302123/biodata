@@ -91,6 +91,7 @@
   .navigation-buttons {
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .navigation-buttons button {
@@ -201,21 +202,24 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-  
-  function addField() {
-    const row =
-      document.getElementById("fields-container").children.length + 1;
-    const container = document.getElementById("fields-container");
+  function addField(id) {
+    const container = document.getElementById("fields-container-" + id);
+    if (!container) {
+      console.error("Container not found for id: ", id);
+      return;
+    }
+    const row = container.children.length + 1;
     const fieldDiv = document.createElement("div");
     const removeButton = document.createElement("button");
     removeButton.textContent = "X";
     removeButton.classList.add("remove-button");
+
     const newField = document.createElement("span");
     newField.innerHTML = `
-    <div class="col-1">
-      <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
-    </div>
-    <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
+      <div class="col-1">
+        <input type="text" id="editable-label-addrow-${id}-${row}" class="custom-input-label" value="Name">
+      </div>
+      <input type="text" id="input-field-addrow-${id}-${row}" class="custom-input" placeholder="Enter Name">
     `;
 
     removeButton.onclick = function () {
@@ -227,15 +231,17 @@
     container.appendChild(fieldDiv);
 
     const labelInputAddRow = document.getElementById(
-      "editable-label-addrow-" + row
+      `editable-label-addrow-${id}-${row}`
     );
     const inputFieldAddRow = document.getElementById(
-      "input-field-addrow-" + row
+      `input-field-addrow-${id}-${row}`
     );
 
-    labelInputAddRow.addEventListener("input", function () {
-      inputFieldAddRow.placeholder = `Enter ${labelInputAddRow.value} `;
-    });
+    if (labelInputAddRow && inputFieldAddRow) {
+      labelInputAddRow.addEventListener("input", function () {
+        inputFieldAddRow.placeholder = `Enter ${labelInputAddRow.value}`;
+      });
+    }
   }
 
   function accordionBtn() {
@@ -316,7 +322,6 @@
 
   $(document).ready(function () {
     formBuilder.buildForm("form-container", configuration);
-    addField();
     accordionBtn();
     toggleBtn();
   });
@@ -384,55 +389,54 @@
           method: config.method,
         });
         var $accordion = $('<div class="custom-accordion"></div>');
-
         config.sections.forEach((section) => {
-          $accordion.append(
+          var $accordionItem = $(
             accordionItem(section.id, section.color, section.title)
           );
-          $accordion.append(section.inputs.map(renderInput));
+          $accordion.append($accordionItem);
+          $accordionItem.append(section.inputs.map(renderInput));
+          $accordionItem.append(accordionBtnDiv(section.id));
         });
-
         $form.append($accordion);
         $form.append(renderSubmitButton());
-
         $(`#${containerId}`).html($form);
       }
 
       function accordionItem(id, color, title) {
         return `
-    <div class="custom-accordion-item" id="${id}">
-      <button type="button" class="custom-accordion-header" style="background-color: ${color}">
-        ${title}
-      </button>
-      <div class="custom-accordion-content">
-        <div class="accordion-content-body">
-          <p>This is the content of section 1.</p>
-
-          <div id="fields-container"></div>
-          <button type="button" class="add-button" onclick="addField()">Add New Field</button>
-
-          <div class="navigation-buttons">
-            <button type="button" class="prevBtn">Previous</button>
-            <button type="button" class="nextBtn">Next</button>
+        <div class="custom-accordion-item" id="${id}">
+          <button type="button" class="custom-accordion-header" style="background-color: ${color}">
+            ${title}
+          </button>
+          <div class="custom-accordion-content">
+            <div class="accordion-content-body"></div>
           </div>
         </div>
-      </div>
-    </div>
-    `;
+        `;
+      }
+
+      function accordionBtnDiv(id) {
+        return `
+        <div id="fields-container-${id}"></div>
+        <button type="button" class="add-button" onclick="addField('${id}')">Add New Field</button>
+        <div class="navigation-buttons">
+          <button type="button" class="prevBtn">Previous</button>
+          <button type="button" class="nextBtn">Next</button>
+        </div>`;
       }
 
       function renderTextInput(config) {
         return `
-    <div class="input-group">
-      <input type="checkbox" class="toggle-checkbox" id="toggle-${config.id}" />
-      <label class="toggle-label" for="toggle-${config.id}">
-        <span class="toggle-slider"></span>
-      </label>
-      <label class="editable-label" for="label-${config.id}">&#9998;</label>
-      <input type="text" class="editable-label-input" value="${config.title}" id="label-${config.id}" />
-    </div>
-    <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
-    `;
+        <div class="input-group">
+          <input type="checkbox" class="toggle-checkbox" id="toggle-${config.id}" />
+          <label class="toggle-label" for="toggle-${config.id}">
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="editable-label" for="label-${config.id}">&#9998;</label>
+          <input type="text" class="editable-label-input" value="${config.title}" id="label-${config.id}" />
+        </div>
+        <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
+        `;
       }
 
       function renderSubmitButton() {
