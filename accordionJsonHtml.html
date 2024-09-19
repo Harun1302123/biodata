@@ -1,464 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Accordion Example</title>
-    <style>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accordion Example</title>
+  <style>
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="password"],
+    input[type="search"],
+    input[type=reset],
+    input[type=tel],
+    input[type=date],
+    select,
+    textarea {
+      width: 60%;
+    }
 
-      input[type="text"], input[type="number"], input[type="email"], 
-			input[type="url"], input[type="password"], input[type="search"], input[type=reset], 
-			input[type=tel], input[type=date], select, textarea 
-      {
-        width: 60%;
-      }
-      
-      .custom-input {
-        margin: 2px;
-        padding: 10px;
-        width: 60%;
-        font-size: 17px;
-        border: 1px solid #aaaaaa;
-      }
+    .custom-input {
+      margin: 2px;
+      padding: 10px;
+      width: 60%;
+      font-size: 17px;
+      border: 1px solid #aaaaaa;
+    }
 
-      .custom-input-label {
-        padding: 10px;
-        font-size: 17px;
-        border: 1px solid #aaaaaa;
-      }
+    .custom-input-label {
+      padding: 10px;
+      font-size: 17px;
+      border: 1px solid #aaaaaa;
+    }
 
-      .editable-label-input {
-        border: none !important;
-        outline: none !important;
-        box-shadow: none !important;
-        font-size: 18px;
-        background-color: transparent;
-        text-align: left;
-      }
+    .editable-label-input {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      font-size: 18px;
+      background-color: transparent;
+      text-align: left;
+    }
 
-      .input-group {
-        display: inline-block;
-        width: 30%;
-      }
+    .input-group {
+      display: inline-block;
+      width: 30%;
+    }
 
-      .col-2 {
-        display: inline-block;
-        width: 30%;
-      }
+    .col-2 {
+      display: inline-block;
+      width: 30%;
+    }
 
-      .col-1 {
-        display: inline-block;
-        width: 26%;
-      }
+    .col-1 {
+      display: inline-block;
+      width: 26%;
+    }
 
-      /* Accordion styles start */
-      .custom-accordion-header {
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        padding: 15px;
-        text-align: left;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        width: 100%;
-        transition: background-color 0.3s ease;
-      }
+    /* Accordion styles start */
+    .custom-accordion-header {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      text-align: left;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
 
-      .custom-accordion-header:hover {
-        background-color: #0056b3;
-      }
+    .custom-accordion-header:hover {
+      background-color: #0056b3;
+    }
 
-      .custom-accordion-content {
-        padding: 5px;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-        box-shadow: none !important;
-      }
+    .custom-accordion-content {
+      padding: 5px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      box-shadow: none !important;
+    }
 
-      .accordion-content-body{
-        padding: 20px;
-        overflow: hidden;
-      }
+    .accordion-content-body {
+      padding: 20px;
+      overflow: hidden;
+    }
 
-      .navigation-buttons {
-        text-align: center;
-        margin-top: 20px;
-      }
+    .navigation-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
 
-      .navigation-buttons button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin: 0 5px;
-      }
+    .navigation-buttons button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 0 5px;
+    }
 
-      .navigation-buttons button:hover {
-        background-color: #0056b3;
-      }
+    .navigation-buttons button:hover {
+      background-color: #0056b3;
+    }
 
-      .navigation-buttons button:disabled {
-        background-color: #d3d3d3;
-        cursor: not-allowed;
-      }
+    .navigation-buttons button:disabled {
+      background-color: #d3d3d3;
+      cursor: not-allowed;
+    }
 
-      /* Accordion styles end */
+    /* Accordion styles end */
 
-      /* Add row styles start */
-      .field-container {
-        margin-bottom: 10px;
-      }
-      .remove-button {
-        background-color: red;
-        color: white;
-        border: none;
-        cursor: pointer;
-        padding: 7px 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-left: 10px;
-      }
-      .add-button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: green;
-        color: white;
-        border: none;
-        cursor: pointer;
-      }
-      /* Add row styles end */
+    /* Add row styles start */
+    .field-container {
+      margin-bottom: 10px;
+    }
 
-      /* Container for the toggle switch */
-      .toggle-container {
-        display: flex;
-        align-items: center;
-      }
+    .remove-button {
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 7px 10px;
+      border-radius: 50%;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
 
-      /* Hide the default checkbox */
-      .toggle-checkbox {
-        display: none;
-      }
+    .add-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-      /* Styling for the label */
-      .toggle-label {
-        display: inline-block;
-        cursor: pointer;
-        position: relative;
-        width: 42px;
-        height: 16px;
-      }
+    /* Add row styles end */
 
-      /* Styling for the slider */
-      .toggle-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: 0.4s;
-        border-radius: 34px;
-      }
+    /* Container for the toggle switch */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+    }
 
-      /* Styling for the slider before it's checked */
-      .toggle-slider:before {
-        position: absolute;
-        content: "";
-        height: 15px;
-        width: 15px;
-        border-radius: 50%;
-        background-color: white;
-        transition: 0.4s;
-      }
+    /* Hide the default checkbox */
+    .toggle-checkbox {
+      display: none;
+    }
 
-      /* Change slider background color and position when checked */
-      .toggle-checkbox:checked + .toggle-label .toggle-slider {
-        background-color: #4caf50;
-      }
+    /* Styling for the label */
+    .toggle-label {
+      display: inline-block;
+      cursor: pointer;
+      position: relative;
+      width: 42px;
+      height: 16px;
+    }
 
-      .toggle-checkbox:checked + .toggle-label .toggle-slider:before {
-        transform: translateX(26px);
-      }
-    </style>
-  </head>
-  <body>
-    <div class="custom-accordion">
-      <div class="custom-accordion-item" id="section1">
-        <button class="custom-accordion-header" style="background-color: green">
-          Personal Details
-        </button>
-        <div class="custom-accordion-content">
-          <div class="accordion-content-body">
-            <!-- Name input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="name">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Name" id="name" name="name" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Name" />
-            <!-- Name input field end -->
-  
-            <!-- Date of birth input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="date_of_birth">&#9998;</label>
-              <input
-                type="text"
-                class="editable-label-input"
-                value="Date of birth"
-                id="date_of_birth"
-                name="date_of_birth"
-              />
-            </div>
-            <input
-              type="date"
-              class="custom-input"
-              placeholder="Enter Date of birth"
-            />
-            <!-- Date of birth input field end -->
-            
-            <!-- Time of birth input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="time_of_birth">&#9998;</label>
-              <input
-                type="text"
-                class="editable-label-input"
-                value="Time of birth"
-                id="time_of_birth"
-                name="time_of_birth"
-              />
-            </div>
-            <input
-              type="time"
-              class="custom-input"
-              placeholder="Enter Time of birth"
-            />
-            <!-- Time of birth input field end -->
-            
-            <!-- Place of birth input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="place_of_birth">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Place of birth" id="place_of_birth" name="place_of_birth" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Place of birth" />
-            <!-- Place of birth input field end -->
+    /* Styling for the slider */
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
 
-            <!-- Rashi input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="rashi">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Rashi" id="rashi" name="rashi" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Rashi" />
-            <!-- Rashi input field end -->
-  
-            <div id="fields-container">
-              <!-- Fields will be added here -->
-            </div>
-            <button class="add-button" onclick="addField()">Add New Field</button>
-  
-            <div class="navigation-buttons">
-              <button class="prevBtn" style="display: none" disabled>
-                Previous
-              </button>
-              <button class="nextBtn">Next</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="custom-accordion-item" id="section2">
-        <button
-          class="custom-accordion-header"
-          style="background-color: purple"
-        >
-          Family Details
-        </button>
-        <div class="custom-accordion-content">
-          <p>This is the content of section 2.</p>
-            <!-- Father Name input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="father_name">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Father Name" id="father_name" name="father_name" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Father Name" />
-            <!-- Father Name input field end -->
+    /* Styling for the slider before it's checked */
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background-color: white;
+      transition: 0.4s;
+    }
 
-            
-            <!-- Father's Occupation input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="father_occupation">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Father's Occupation" id="father_occupation" name="father_occupation" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Father's Occupation" />
-            <!-- Father's Occupation input field end -->
+    /* Change slider background color and position when checked */
+    .toggle-checkbox:checked+.toggle-label .toggle-slider {
+      background-color: #4caf50;
+    }
 
-            <!-- Mother Name input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="mother_name">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Mother Name" id="mother_name" name="mother_name" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Mother Name" />
-            <!-- Mother Name input field end -->
-             
-            <!-- Mother's Occupation input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="mother_occupation">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Mother's Occupation" id="mother_occupation" name="mother_occupation" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Mother's Occupation" />
-            <!-- Mother's Occupation input field end -->
-             
-            <!-- Brother Name (Elder) input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="brother_name_elder">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Brother Name (Elder)" id="brother_name_elder" name="brother_name_elder" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Brother Name (Elder)" />
-            <!-- Brother Name (Elder) input field end -->
-
-          <div class="navigation-buttons">
-            <button class="prevBtn">Previous</button>
-            <button class="nextBtn">Next</button>
-          </div>
-        </div>
-      </div>
-      <div class="custom-accordion-item" id="section3">
-        <button
-          class="custom-accordion-header"
-          style="background-color: orange"
-        >
-          Contact Details
-        </button>
-        <div class="custom-accordion-content">
-          <p>This is the content of section 3.</p>
-            <!-- Contact Number input field start -->
-            <div class="input-group">
-              <input type="checkbox" class="toggle-checkbox" />
-              <label class="toggle-label">
-                <span class="toggle-slider"></span>
-              </label>
-              <label class="editable-label" for="contact_number">&#9998;</label>
-              <input type="text" class="editable-label-input" value="Contact Number" id="contact_number" name="contact_number" />
-            </div>
-            <input type="text" class="custom-input" placeholder="Enter Contact Number" />
-            <!-- Contact Number input field end -->
-             
-
-          <div class="navigation-buttons">
-            <button class="prevBtn">Previous</button>
-            <button class="nextBtn">Next</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="custom-accordion-item" id="section3"></div>
-        <button
-          class="custom-accordion-header"
-          style="background-color: rgb(230, 91, 11)"
-        >
-          Single/Multiple Photo
-        </button>
-        <div class="custom-accordion-content">
-          
-          <p>NOTE: Adding photo will increase the File Size of the Biodata. It is recommended to use medium resolution photo.</p>
-
-          <div class="navigation-buttons">
-            <button class="prevBtn">Previous</button>
-            <button class="nextBtn">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    .toggle-checkbox:checked+.toggle-label .toggle-slider:before {
+      transform: translateX(26px);
+    }
+  </style>
+</head>
+<body>
 
 <div id="form-container"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   var configuration = {
-    action: "/biodata.html",
+    // action: "/biodata.html",
     method: "post",
     onValidSubmit: function (formState) {
       console.error("YAY a success!!", formState);
       sessionStorage.setItem("formData", JSON.stringify(formState));
     },
-    inputs: [
+    sections: [
       {
-        title: "Name",
-        label: "label-name",
-        id: "input-name",
-        type: "text",
+        id: 'section1',
+        color: 'green',
+        title: 'Personal Details',
+        inputs: [
+          {
+            title: "Name",
+            label: "label-name",
+            id: "input-name",
+            type: "text",
+          },
+          {
+            title: "Date of birth",
+            label: "label-dob",
+            id: "input-dob",
+            type: "date",
+          },
+          {
+            title: "Time of birth",
+            label: "label-tob",
+            id: "input-tob",
+            type: "time",
+          },
+          {
+            title: "Place of birth",
+            label: "label-pob",
+            id: "input-pob",
+            type: "text",
+          },
+        ],
       },
       {
-        title: "Date of birth",
-        label: "label-dob",
-        id: "input-dob",
-        type: "date",
+        id: 'section2',
+        color: 'red',
+        title: 'Title',
+        inputs: [
+          {
+            title: "Example Name",
+            label: "example-label",
+            id: "example-input",
+            type: "text",
+          },
+          {
+            title: "Example Name Two",
+            label: "example-label-two",
+            id: "example-input-two",
+            type: "text",
+          },
+        ],
       },
-      {
-        title: "Time of birth",
-        label: "label-tob",
-        id: "input-tob",
-        type: "time",
-      },
-      {
-        title: "Place of birth",
-        label: "label-pob",
-        id: "input-pob",
-        type: "text",
-      },
-      
-    ],
-    inputSecond: [
-      {
-        title: "Example Name",
-        label: "example-label",
-        id: "example-input",
-        type: "text",
-      },
+      // Add more sections as needed
     ],
   };
 
@@ -468,7 +270,7 @@
 
   var formBuilder = (function () {
     function buildForm(containerId, config) {
-      var formState = getInitialFormState(config.inputs.concat(config.inputSecond));
+      var formState = getInitialFormState(config.sections.flatMap(section => section.inputs));
 
       function getInitialFormState(inputs) {
         return inputs.reduce(function (state, config) {
@@ -486,22 +288,24 @@
       }
 
       function renderForm() {
-          var $form = $('<form class="form-builder-content"></form>')
-            .prop({
-                action: config.action,
-                method: config.method,
-            });
-          var $accordion = $('<div class="custom-accordion"></div>');
-          $accordion.append(accordionItem('section4', 'green', "Personal Details"));
-          $accordion.append(config.inputs.map(renderInput));
-          $accordion.append(accordionItem('section5', 'yellow', "Title"));
-          $accordion.append(config.inputSecond.map(renderInput));
+        var $form = $('<form class="form-builder-content"></form>')
+          .prop({
+            action: config.action,
+            method: config.method,
+          });
+        var $accordion = $('<div class="custom-accordion"></div>');
 
-          $form.append($accordion);
-          $form.append(renderSubmitButton());
+        config.sections.forEach(section => {
+          $accordion.append(accordionItem(section.id, section.color, section.title));
+          $accordion.append(section.inputs.map(renderInput));
+        });
 
-          $(`#${containerId}`).html($form);
-        }
+        $form.append($accordion);
+        $form.append(renderSubmitButton());
+
+        $(`#${containerId}`).html($form);
+
+      }
 
 
       function accordionItem(id, color, title) {
@@ -529,56 +333,18 @@
 
       function renderTextInput(config) {
         return `
-        <div class="input-group">
-          <label class="toggle-label">
-            <span class="toggle-slider"></span>
-          </label>
-          <label class="editable-label" for="${config.label}">&#9998;</label>
-          <input type="text" class="editable-label-input" value="${config.title}" id="${config.label}" />
-        </div>
-        <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
-        `;
+      <div class="input-group">
+        <label class="toggle-label">
+          <span class="toggle-slider"></span>
+        </label>
+        <label class="editable-label" for="${config.label}">&#9998;</label>
+        <input type="text" class="editable-label-input" value="${config.title}" id="${config.label}" />
+      </div>
+      <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
+      `;
       }
 
-      function renderSubmitButton() {
-        return `<div class="text-right"><button class="btn btn-primary form-submit-button" type="submit">Submit</button></div>`;
-      }
-
-      function addEventHandlers() {
-        $(`#${containerId}`)
-          .on("focusout", ".custom-input", handleInputChange)
-          .on("focusout", ".editable-label-input", handleInputChange)
-          .on("click", ".form-submit-button", handleSubmit);
-      }
-
-      function handleInputChange(event) {
-        updateInputAndValidate(event.target.id, event.target.value);
-      }
-
-      function updateInputAndValidate(id, value) {
-        formState[id] = value;
-      }
-
-      function handleSubmit(event) {
-        config.onValidSubmit && config.onValidSubmit(formState);
-      }
-
-      (function init() {
-        renderForm();
-        addEventHandlers();
-      })();
-    }
-
-    return {
-      buildForm: buildForm,
-    };
-  })();
-</script>
-    
-
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      function accordionBtn() {
         const headers = document.querySelectorAll(".custom-accordion-header");
         const contents = document.querySelectorAll(".custom-accordion-content");
         const allPrevBtns = document.querySelectorAll(".prevBtn");
@@ -633,37 +399,23 @@
           });
         });
 
-        // Open the first section by default
         openSection(0);
-      });
+      }
 
       function addField() {
-        // get row number
-        const row =
-          document.getElementById("fields-container").children.length + 1;
-
+        const row = document.getElementById("fields-container").children.length + 1;
         const container = document.getElementById("fields-container");
-
-        // Create a new div for the field
         const fieldDiv = document.createElement("div");
-        // fieldDiv.classList.add('field-container');
-
-        // Create a remove button
         const removeButton = document.createElement("button");
         removeButton.textContent = "X";
         removeButton.classList.add("remove-button");
-
-        // Create a new input field
         const newField = document.createElement("span");
-        // newField.className = 'col-2';
-
-        // Add the label and input elements to the new div
         newField.innerHTML = `
-              <div class="col-1">
-                <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
-              </div>
-              <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
-            `;
+            <div class="col-1">
+              <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
+            </div>
+            <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
+          `;
 
         removeButton.onclick = function () {
           container.removeChild(fieldDiv);
@@ -671,8 +423,6 @@
 
         fieldDiv.appendChild(removeButton);
         fieldDiv.appendChild(newField);
-
-        // Append the field container to the main container
         container.appendChild(fieldDiv);
 
         const labelInputAddRow = document.getElementById(
@@ -687,31 +437,78 @@
         });
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        // Select all input groups
+      function renderSubmitButton() {
+        return `<div class="text-right"><button class="btn btn-primary form-submit-button" type="submit">Submit</button></div>`;
+      }
+
+      function toggleBtn() {
         const inputGroups = document.querySelectorAll(".input-group");
 
         inputGroups.forEach((group) => {
           const labelInput = group.querySelector(".editable-label-input");
-          const inputField = group.nextElementSibling; // Assuming the input field is immediately after the group
+          const inputField = group.nextElementSibling;
           const checkbox = group.querySelector(".toggle-checkbox");
 
-          // Update checkbox and placeholder
-          inputField.addEventListener("input", function () {
-            checkbox.checked = true;
-          });
+          if (inputField) {
+            inputField.addEventListener("input", function () {
+              if (checkbox) {
+                checkbox.checked = false;
+              }
+            });
+          }
 
-          labelInput.addEventListener("input", function () {
-            inputField.placeholder = `Enter ${labelInput.value}`;
-          });
+          if (labelInput) {
+            labelInput.addEventListener("input", function () {
+              inputField.placeholder = `Enter ${labelInput.value}`;
+            });
+          }
 
-          // Ensure the checkbox toggle working correctly
           const toggleLabel = group.querySelector(".toggle-label");
-          toggleLabel.addEventListener("click", function () {
-            checkbox.checked = !checkbox.checked;
-          });
+
+          if (toggleLabel) {
+            toggleLabel.addEventListener("click", function () {
+              if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+              }
+            });
+          }
         });
-      });
-    </script>
-  </body>
+      }
+
+      function addEventHandlers() {
+        $(`#${containerId}`)
+          .on("focusout", ".custom-input", handleInputChange)
+          .on("focusout", ".editable-label-input", handleInputChange)
+          .on("click", ".form-submit-button", handleSubmit);
+      }
+
+      function handleInputChange(event) {
+        updateInputAndValidate(event.target.id, event.target.value);
+      }
+
+      function updateInputAndValidate(id, value) {
+        formState[id] = value;
+      }
+
+      function handleSubmit(event) {
+        config.onValidSubmit && config.onValidSubmit(formState);
+      }
+
+      (function init() {
+        renderForm();
+        accordionBtn();
+        toggleBtn();
+        addField();
+        // addEventHandlers();
+      })();
+    
+    }
+
+    return {
+      buildForm: buildForm,
+    };
+  })();
+</script>
+
+</body>
 </html>
