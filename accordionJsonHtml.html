@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Accordion Example</title>
 <style>
   input[type="text"],
@@ -91,7 +90,6 @@
   .navigation-buttons {
     text-align: center;
     margin-top: 20px;
-    margin-bottom: 20px;
   }
 
   .navigation-buttons button {
@@ -217,9 +215,9 @@
     const newField = document.createElement("span");
     newField.innerHTML = `
       <div class="col-1">
-        <input type="text" id="editable-label-addrow-${id}-${row}" class="custom-input-label" value="Name">
+        <input type="text" id="editable-label-addrow-${id}-${row}" class="custom-input-label" value="Description">
       </div>
-      <input type="text" id="input-field-addrow-${id}-${row}" class="custom-input" placeholder="Enter Name">
+      <input type="text" id="input-field-addrow-${id}-${row}" class="custom-input" placeholder="Enter Description">
     `;
 
     removeButton.onclick = function () {
@@ -340,8 +338,8 @@
         title: "Personal Details",
         inputs: [
           {
-            title: "Name",
-            id: "input-name",
+            title: "full",
+            id: "input-full",
             type: "text",
           },
         ],
@@ -389,30 +387,27 @@
           method: config.method,
         });
         var $accordion = $('<div class="custom-accordion"></div>');
+
         config.sections.forEach((section) => {
           var $accordionItem = $(
-            accordionItem(section.id, section.color, section.title)
+            `<div class="custom-accordion-item" id="${section.id}">
+              <button type="button" class="custom-accordion-header" style="background-color: ${section.color}">
+                ${section.title}
+              </button>
+              <div class="custom-accordion-content">
+                <div class="accordion-content-body">
+                  ${section.inputs.map(renderInput).join("")}
+                  ${accordionBtnDiv(section.id)}
+                </div>
+              </div>
+            </div>`
           );
           $accordion.append($accordionItem);
-          $accordionItem.append(section.inputs.map(renderInput));
-          $accordionItem.append(accordionBtnDiv(section.id));
         });
+
         $form.append($accordion);
         $form.append(renderSubmitButton());
         $(`#${containerId}`).html($form);
-      }
-
-      function accordionItem(id, color, title) {
-        return `
-        <div class="custom-accordion-item" id="${id}">
-          <button type="button" class="custom-accordion-header" style="background-color: ${color}">
-            ${title}
-          </button>
-          <div class="custom-accordion-content">
-            <div class="accordion-content-body"></div>
-          </div>
-        </div>
-        `;
       }
 
       function accordionBtnDiv(id) {
