@@ -1,0 +1,108 @@
+<div id="form-container"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  var configuration = {
+    action: "/biodata.html",
+    method: "post",
+    onValidSubmit: function (formState) {
+      console.error("YAY a success!!", formState);
+      sessionStorage.setItem("formData", JSON.stringify(formState));
+    },
+    inputs: [
+      {
+        title: "Example User Name",
+        id: "user-input",
+        placeholder: "user name",
+        type: "text",
+      }
+      
+    ],
+  };
+
+  $(document).ready(function () {
+    formBuilder.buildForm("form-container", configuration);
+  });
+
+  var formBuilder = (function () {
+    function buildForm(containerId, config) {
+      var formState = getInitialFormState(config.inputs);
+
+      function getInitialFormState(inputs) {
+        return inputs.reduce(function (state, config) {
+          state[config.id] = config.defaultValue;
+          return state;
+        }, {});
+      }
+
+      function renderInput(config) {
+        var renderMethods = {
+          text: renderTextInput,
+        };
+        var renderMethod = renderMethods[config.type] || renderMethods.text;
+        return renderMethod(config);
+      }
+
+      function renderForm() {
+        var $form = $('<form class="form-builder-content"></form>')
+          .prop({
+            action: config.action,
+            method: config.method,
+          })
+          .append(config.inputs.map(renderInput))
+          .append(renderSubmitButton(config.submitText));
+
+        $(`#${containerId}`).html($form);
+      }
+
+      function renderTextInput(config) {
+        var input = `<input type="${config.type}" class="form-control" id="${config.id}" placeholder="${config.placeholder}" />`;
+        return renderFormGroup(input, config);
+      }
+
+      function renderFormGroup(input, config) {
+        return `
+        <div class="form-group">
+        <label for="${config.id}">${config.title}</label>
+        ${input}
+        </div> 
+        `;
+      }
+
+      function renderSubmitButton(text) {
+        return `<div class="text-right"><button class="btn btn-primary form-submit-button" type="submit">Submit</button></div>`;
+      }
+
+      function addEventHandlers() {
+        $(`#${containerId}`)
+          .on("focusout", ".form-control", handleInputChange)
+          .on("click", ".form-submit-button", handleSubmit);
+      }
+
+      function handleInputChange(event) {
+        updateInputAndValidate(event.target.id, event.target.value);
+      }
+
+      function handleCheckboxChange(event) {
+        updateInputAndValidate(event.target.name, event.target.value);
+      }
+
+      function updateInputAndValidate(id, value) {
+        formState[id] = value;
+      }
+
+      function handleSubmit(event) {
+        config.onValidSubmit && config.onValidSubmit(formState);
+      }
+
+      (function init() {
+        renderForm();
+        addEventHandlers();
+      })();
+    }
+
+    return {
+      buildForm: buildForm,
+    };
+  })();
+</script>

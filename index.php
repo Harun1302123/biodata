@@ -13,6 +13,8 @@
         <li><a href="multi-step.html">Multi Step</a></li>
         <li><a href="jsonForm.html">jsonForm</a></li>
         <li><a href="jsonHtml.html">jsonHtml</a></li>
+        <li><a href="accordionJsonHtml.html">accordionJsonHtml</a></li>
+        <li><a href="jsonHtmlMini.html">jsonHtmlMini</a></li>
     </ul>
 </body>
 </html>
