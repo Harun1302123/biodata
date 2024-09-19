@@ -1,200 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accordion Example</title>
-  <style>
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="url"],
-    input[type="password"],
-    input[type="search"],
-    input[type=reset],
-    input[type=tel],
-    input[type=date],
-    select,
-    textarea {
-      width: 60%;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Accordion Example</title>
+<style>
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"],
+  input[type="password"],
+  input[type="search"],
+  input[type="reset"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 60%;
+  }
 
-    .custom-input {
-      margin: 2px;
-      padding: 10px;
-      width: 60%;
-      font-size: 17px;
-      border: 1px solid #aaaaaa;
-    }
+  .custom-input {
+    margin: 2px;
+    padding: 10px;
+    width: 60%;
+    font-size: 17px;
+    border: 1px solid #aaaaaa;
+  }
 
-    .custom-input-label {
-      padding: 10px;
-      font-size: 17px;
-      border: 1px solid #aaaaaa;
-    }
+  .custom-input-label {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid #aaaaaa;
+  }
 
-    .editable-label-input {
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-      font-size: 18px;
-      background-color: transparent;
-      text-align: left;
-    }
+  .editable-label-input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 18px;
+    background-color: transparent;
+    text-align: left;
+  }
 
-    .input-group {
-      display: inline-block;
-      width: 30%;
-    }
+  .input-group {
+    display: inline-block;
+    width: 30%;
+  }
 
-    .col-2 {
-      display: inline-block;
-      width: 30%;
-    }
+  .col-2 {
+    display: inline-block;
+    width: 30%;
+  }
 
-    .col-1 {
-      display: inline-block;
-      width: 26%;
-    }
+  .col-1 {
+    display: inline-block;
+    width: 26%;
+  }
 
-    /* Accordion styles start */
-    .custom-accordion-header {
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      padding: 15px;
-      text-align: left;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
+  /* Accordion styles start */
+  .custom-accordion-header {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    text-align: left;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
 
-    .custom-accordion-header:hover {
-      background-color: #0056b3;
-    }
+  .custom-accordion-header:hover {
+    background-color: #0056b3;
+  }
 
-    .custom-accordion-content {
-      padding: 5px;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-      box-shadow: none !important;
-    }
+  .custom-accordion-content {
+    padding: 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-shadow: none !important;
+  }
 
-    .accordion-content-body {
-      padding: 20px;
-      overflow: hidden;
-    }
+  .accordion-content-body {
+    padding: 20px;
+    overflow: hidden;
+  }
 
-    .navigation-buttons {
-      text-align: center;
-      margin-top: 20px;
-    }
+  .navigation-buttons {
+    text-align: center;
+    margin-top: 20px;
+  }
 
-    .navigation-buttons button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin: 0 5px;
-    }
+  .navigation-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 5px;
+  }
 
-    .navigation-buttons button:hover {
-      background-color: #0056b3;
-    }
+  .navigation-buttons button:hover {
+    background-color: #0056b3;
+  }
 
-    .navigation-buttons button:disabled {
-      background-color: #d3d3d3;
-      cursor: not-allowed;
-    }
+  .navigation-buttons button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
 
-    /* Accordion styles end */
+  /* Accordion styles end */
 
-    /* Add row styles start */
-    .field-container {
-      margin-bottom: 10px;
-    }
+  /* Add row styles start */
+  .field-container {
+    margin-bottom: 10px;
+  }
 
-    .remove-button {
-      background-color: red;
-      color: white;
-      border: none;
-      cursor: pointer;
-      padding: 7px 10px;
-      border-radius: 50%;
-      margin-right: 10px;
-      margin-left: 10px;
-    }
+  .remove-button {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 7px 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
 
-    .add-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: green;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
+  .add-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
 
-    /* Add row styles end */
+  /* Add row styles end */
 
-    /* Container for the toggle switch */
-    .toggle-container {
-      display: flex;
-      align-items: center;
-    }
+  /* Container for the toggle switch */
+  .toggle-container {
+    display: flex;
+    align-items: center;
+  }
 
-    /* Hide the default checkbox */
-    .toggle-checkbox {
-      display: none;
-    }
+  /* Hide the default checkbox */
+  .toggle-checkbox {
+    display: none;
+  }
 
-    /* Styling for the label */
-    .toggle-label {
-      display: inline-block;
-      cursor: pointer;
-      position: relative;
-      width: 42px;
-      height: 16px;
-    }
+  /* Styling for the label */
+  .toggle-label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    width: 42px;
+    height: 16px;
+  }
 
-    /* Styling for the slider */
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 34px;
-    }
+  /* Styling for the slider */
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
 
-    /* Styling for the slider before it's checked */
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 15px;
-      width: 15px;
-      border-radius: 50%;
-      background-color: white;
-      transition: 0.4s;
-    }
+  /* Styling for the slider before it's checked */
+  .toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: white;
+    transition: 0.4s;
+  }
 
-    /* Change slider background color and position when checked */
-    .toggle-checkbox:checked+.toggle-label .toggle-slider {
-      background-color: #4caf50;
-    }
+  /* Change slider background color and position when checked */
+  .toggle-checkbox:checked + .toggle-label .toggle-slider {
+    background-color: #4caf50;
+  }
 
-    .toggle-checkbox:checked+.toggle-label .toggle-slider:before {
-      transform: translateX(26px);
-    }
-  </style>
+  .toggle-checkbox:checked + .toggle-label .toggle-slider:before {
+    transform: translateX(26px);
+  }
+</style>
 </head>
 <body>
 
@@ -203,7 +203,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   var configuration = {
-    // action: "/biodata.html",
+    action: "/biodata.html",
     method: "post",
     onValidSubmit: function (formState) {
       console.error("YAY a success!!", formState);
@@ -211,51 +211,27 @@
     },
     sections: [
       {
-        id: 'section1',
-        color: 'green',
-        title: 'Personal Details',
+        id: "section1",
+        color: "green",
+        title: "Personal Details",
         inputs: [
           {
             title: "Name",
-            label: "label-name",
-            id: "input-name",
-            type: "text",
-          },
-          {
-            title: "Date of birth",
-            label: "label-dob",
-            id: "input-dob",
-            type: "date",
-          },
-          {
-            title: "Time of birth",
-            label: "label-tob",
-            id: "input-tob",
-            type: "time",
-          },
-          {
-            title: "Place of birth",
-            label: "label-pob",
-            id: "input-pob",
+            labelId: "label-name",
+            inputId: "input-name",
             type: "text",
           },
         ],
       },
       {
-        id: 'section2',
-        color: 'red',
-        title: 'Title',
+        id: "section2",
+        color: "red",
+        title: "Title",
         inputs: [
           {
-            title: "Example Name",
-            label: "example-label",
-            id: "example-input",
-            type: "text",
-          },
-          {
-            title: "Example Name Two",
-            label: "example-label-two",
-            id: "example-input-two",
+            title: "Ex 1",
+            labelId: "label-ex1",
+            inputId: "input-ex1",
             type: "text",
           },
         ],
@@ -270,11 +246,13 @@
 
   var formBuilder = (function () {
     function buildForm(containerId, config) {
-      var formState = getInitialFormState(config.sections.flatMap(section => section.inputs));
+      var formState = getInitialFormState(
+        config.sections.flatMap((section) => section.inputs)
+      );
 
       function getInitialFormState(inputs) {
         return inputs.reduce(function (state, config) {
-          state[config.id] = config.defaultValue || '';
+          state[config.inputId] = config.defaultValue || "";
           return state;
         }, {});
       }
@@ -288,15 +266,16 @@
       }
 
       function renderForm() {
-        var $form = $('<form class="form-builder-content"></form>')
-          .prop({
-            action: config.action,
-            method: config.method,
-          });
+        var $form = $('<form class="form-builder-content"></form>').prop({
+          action: config.action,
+          method: config.method,
+        });
         var $accordion = $('<div class="custom-accordion"></div>');
 
-        config.sections.forEach(section => {
-          $accordion.append(accordionItem(section.id, section.color, section.title));
+        config.sections.forEach((section) => {
+          $accordion.append(
+            accordionItem(section.id, section.color, section.title)
+          );
           $accordion.append(section.inputs.map(renderInput));
         });
 
@@ -304,9 +283,7 @@
         $form.append(renderSubmitButton());
 
         $(`#${containerId}`).html($form);
-
       }
-
 
       function accordionItem(id, color, title) {
         return `
@@ -320,7 +297,7 @@
 
               <div id="fields-container"></div>
               <button class="add-button" onclick="addField()">Add New Field</button>
-    
+
               <div class="navigation-buttons">
                 <button class="prevBtn">Previous</button>
                 <button class="nextBtn">Next</button>
@@ -333,15 +310,16 @@
 
       function renderTextInput(config) {
         return `
-      <div class="input-group">
-        <label class="toggle-label">
-          <span class="toggle-slider"></span>
-        </label>
-        <label class="editable-label" for="${config.label}">&#9998;</label>
-        <input type="text" class="editable-label-input" value="${config.title}" id="${config.label}" />
-      </div>
-      <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
-      `;
+        <div class="input-group">
+          <input type="checkbox" class="toggle-checkbox" id="toggle-${config.inputId}" />
+          <label class="toggle-label" for="toggle-${config.inputId}">
+            <span class="toggle-slider"></span>
+          </label>
+          <label class="editable-label" for="label-${config.inputId}">&#9998;</label>
+          <input type="text" class="editable-label-input" value="${config.title}" id="label-${config.inputId}" />
+        </div>
+        <input type="${config.type}" class="custom-input" id="${config.inputId}" placeholder="Enter ${config.title}" />
+        `;
       }
 
       function accordionBtn() {
@@ -411,11 +389,11 @@
         removeButton.classList.add("remove-button");
         const newField = document.createElement("span");
         newField.innerHTML = `
-            <div class="col-1">
-              <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
-            </div>
-            <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
-          `;
+        <div class="col-1">
+          <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
+        </div>
+        <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
+        `;
 
         removeButton.onclick = function () {
           container.removeChild(fieldDiv);
@@ -443,35 +421,20 @@
 
       function toggleBtn() {
         const inputGroups = document.querySelectorAll(".input-group");
-
         inputGroups.forEach((group) => {
           const labelInput = group.querySelector(".editable-label-input");
           const inputField = group.nextElementSibling;
-          const checkbox = group.querySelector(".toggle-checkbox");
-
-          if (inputField) {
-            inputField.addEventListener("input", function () {
-              if (checkbox) {
-                checkbox.checked = false;
-              }
-            });
-          }
-
-          if (labelInput) {
-            labelInput.addEventListener("input", function () {
-              inputField.placeholder = `Enter ${labelInput.value}`;
-            });
-          }
-
+          const checkbox = group.querySelector(".toggle-checkbox");  
+          inputField.addEventListener("input", function () {
+            checkbox.checked = true;
+          });
+          labelInput.addEventListener("input", function () {
+            inputField.placeholder = `Enter ${labelInput.value}`;
+          });
           const toggleLabel = group.querySelector(".toggle-label");
-
-          if (toggleLabel) {
-            toggleLabel.addEventListener("click", function () {
-              if (checkbox) {
-                checkbox.checked = !checkbox.checked;
-              }
-            });
-          }
+          toggleLabel.addEventListener("click", function () {
+            checkbox.checked = !checkbox.checked;
+          });
         });
       }
 
@@ -479,6 +442,8 @@
         $(`#${containerId}`)
           .on("focusout", ".custom-input", handleInputChange)
           .on("focusout", ".editable-label-input", handleInputChange)
+          .on("focusout", ".toggle-checkbox", handleInputChange)
+          // .trigger("change")
           .on("click", ".form-submit-button", handleSubmit);
       }
 
@@ -499,9 +464,8 @@
         accordionBtn();
         toggleBtn();
         addField();
-        // addEventHandlers();
+        addEventHandlers();
       })();
-    
     }
 
     return {
@@ -509,6 +473,5 @@
     };
   })();
 </script>
-
 </body>
 </html>
