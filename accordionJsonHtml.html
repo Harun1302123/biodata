@@ -328,7 +328,7 @@
     action: "/biodata.html",
     method: "post",
     onValidSubmit: function (formState) {
-      console.error("YAY a success!!", formState);
+      console.log("data success!!", formState);
       sessionStorage.setItem("formData", JSON.stringify(formState));
     },
     sections: [
@@ -365,6 +365,8 @@
       var formState = getInitialFormState(
         config.sections.flatMap((section) => section.inputs)
       );
+
+      var formErrors = {};
 
       function getInitialFormState(inputs) {
         return inputs.reduce(function (state, config) {
@@ -438,11 +440,26 @@
         return `<div class="text-right"><button id="form-submit-button" type="submit">Submit</button></div>`;
       }
 
+      function initializeFormState() {
+        $(`#${containerId} .custom-input, #${containerId} .editable-label-input, #${containerId} .toggle-checkbox`).each(function () {
+          const id = $(this).attr('id');
+          let value;
+
+          if ($(this).is(':checkbox')) {
+            value = $(this).is(':checked');
+          } else {
+            value = $(this).val();
+          }
+
+          formState[id] = value;
+        });
+      }
+
       function addEventHandlers() {
         $(`#${containerId}`)
           .on("focusout", ".custom-input", handleInputChange)
           .on("focusout", ".editable-label-input", handleInputChange)
-          .on("focusout", ".toggle-checkbox", handleInputChange)
+          .on("change", ".toggle-checkbox", handleCheckboxChange)
           .on("click", "#form-submit-button", handleSubmit);
       }
 
@@ -450,12 +467,16 @@
         updateInputAndValidate(event.target.id, event.target.value);
       }
 
+      function handleCheckboxChange(event) {
+        updateInputAndValidate(event.target.id, event.target.checked);
+      }
+
       function updateInputAndValidate(id, value) {
         formState[id] = value;
       }
 
       function handleSubmit(event) {
-        validateAll();
+        // validateAll();
         if (!isFormValid()) {
           event.preventDefault();
         } else {
@@ -479,6 +500,7 @@
 
       (function init() {
         renderForm();
+        initializeFormState();
         addEventHandlers();
       })();
     }
