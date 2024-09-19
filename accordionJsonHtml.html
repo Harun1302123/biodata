@@ -197,11 +197,130 @@
 </style>
 </head>
 <body>
-
 <div id="form-container"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+  
+  function addField() {
+    const row =
+      document.getElementById("fields-container").children.length + 1;
+    const container = document.getElementById("fields-container");
+    const fieldDiv = document.createElement("div");
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "X";
+    removeButton.classList.add("remove-button");
+    const newField = document.createElement("span");
+    newField.innerHTML = `
+    <div class="col-1">
+      <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
+    </div>
+    <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
+    `;
+
+    removeButton.onclick = function () {
+      container.removeChild(fieldDiv);
+    };
+
+    fieldDiv.appendChild(removeButton);
+    fieldDiv.appendChild(newField);
+    container.appendChild(fieldDiv);
+
+    const labelInputAddRow = document.getElementById(
+      "editable-label-addrow-" + row
+    );
+    const inputFieldAddRow = document.getElementById(
+      "input-field-addrow-" + row
+    );
+
+    labelInputAddRow.addEventListener("input", function () {
+      inputFieldAddRow.placeholder = `Enter ${labelInputAddRow.value} `;
+    });
+  }
+
+  function accordionBtn() {
+    const headers = document.querySelectorAll(".custom-accordion-header");
+    const contents = document.querySelectorAll(".custom-accordion-content");
+    const allPrevBtns = document.querySelectorAll(".prevBtn");
+    const allNextBtns = document.querySelectorAll(".nextBtn");
+
+    let currentIndex = 0;
+
+    function openSection(index) {
+      contents.forEach((content, i) => {
+        if (i === index) {
+          content.style.maxHeight = "100%";
+          headers[i].classList.add("active");
+        } else {
+          content.style.maxHeight = null;
+          headers[i].classList.remove("active");
+        }
+      });
+      updateButtons(index);
+    }
+
+    function updateButtons(index) {
+      allPrevBtns.forEach((btn, i) => {
+        btn.disabled = i !== index && i < index;
+      });
+      allNextBtns.forEach((btn, i) => {
+        btn.disabled = i !== index && i > index;
+      });
+    }
+
+    headers.forEach((header, index) => {
+      header.addEventListener("click", () => {
+        openSection(index);
+        currentIndex = index;
+      });
+    });
+
+    allPrevBtns.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          openSection(currentIndex);
+        }
+      });
+    });
+
+    allNextBtns.forEach((btn, index) => {
+      btn.addEventListener("click", () => {
+        if (currentIndex < contents.length - 1) {
+          currentIndex++;
+          openSection(currentIndex);
+        }
+      });
+    });
+
+    openSection(0);
+  }
+  function toggleBtn() {
+    const inputGroups = document.querySelectorAll(".input-group");
+    inputGroups.forEach((group) => {
+      const labelInput = group.querySelector(".editable-label-input");
+      const inputField = group.nextElementSibling;
+      const checkbox = group.querySelector(".toggle-checkbox");
+      inputField.addEventListener("input", function () {
+        checkbox.checked = true;
+      });
+      labelInput.addEventListener("input", function () {
+        inputField.placeholder = `Enter ${labelInput.value}`;
+      });
+      const toggleLabel = group.querySelector(".toggle-label");
+      toggleLabel.addEventListener("click", function () {
+        checkbox.checked = !checkbox.checked;
+      });
+    });
+  }
+
+  $(document).ready(function () {
+    formBuilder.buildForm("form-container", configuration);
+    addField();
+    accordionBtn();
+    toggleBtn();
+  });
+
   var configuration = {
     action: "/biodata.html",
     method: "post",
@@ -217,8 +336,7 @@
         inputs: [
           {
             title: "Name",
-            labelId: "label-name",
-            inputId: "input-name",
+            id: "input-name",
             type: "text",
           },
         ],
@@ -230,8 +348,7 @@
         inputs: [
           {
             title: "Ex 1",
-            labelId: "label-ex1",
-            inputId: "input-ex1",
+            id: "input-ex1",
             type: "text",
           },
         ],
@@ -239,10 +356,6 @@
       // Add more sections as needed
     ],
   };
-
-  $(document).ready(function () {
-    formBuilder.buildForm("form-container", configuration);
-  });
 
   var formBuilder = (function () {
     function buildForm(containerId, config) {
@@ -252,7 +365,7 @@
 
       function getInitialFormState(inputs) {
         return inputs.reduce(function (state, config) {
-          state[config.inputId] = config.defaultValue || "";
+          state[config.id] = config.defaultValue || "";
           return state;
         }, {});
       }
@@ -287,155 +400,43 @@
 
       function accordionItem(id, color, title) {
         return `
-        <div class="custom-accordion-item" id="${id}">
-          <button class="custom-accordion-header" style="background-color: ${color}">
-            ${title}
-          </button>
-          <div class="custom-accordion-content">
-            <div class="accordion-content-body">
-              <p>This is the content of section 1.</p>
+    <div class="custom-accordion-item" id="${id}">
+      <button type="button" class="custom-accordion-header" style="background-color: ${color}">
+        ${title}
+      </button>
+      <div class="custom-accordion-content">
+        <div class="accordion-content-body">
+          <p>This is the content of section 1.</p>
 
-              <div id="fields-container"></div>
-              <button class="add-button" onclick="addField()">Add New Field</button>
+          <div id="fields-container"></div>
+          <button type="button" class="add-button" onclick="addField()">Add New Field</button>
 
-              <div class="navigation-buttons">
-                <button class="prevBtn">Previous</button>
-                <button class="nextBtn">Next</button>
-              </div>
-            </div>
+          <div class="navigation-buttons">
+            <button type="button" class="prevBtn">Previous</button>
+            <button type="button" class="nextBtn">Next</button>
           </div>
         </div>
-        `;
+      </div>
+    </div>
+    `;
       }
 
       function renderTextInput(config) {
         return `
-        <div class="input-group">
-          <input type="checkbox" class="toggle-checkbox" id="toggle-${config.inputId}" />
-          <label class="toggle-label" for="toggle-${config.inputId}">
-            <span class="toggle-slider"></span>
-          </label>
-          <label class="editable-label" for="label-${config.inputId}">&#9998;</label>
-          <input type="text" class="editable-label-input" value="${config.title}" id="label-${config.inputId}" />
-        </div>
-        <input type="${config.type}" class="custom-input" id="${config.inputId}" placeholder="Enter ${config.title}" />
-        `;
-      }
-
-      function accordionBtn() {
-        const headers = document.querySelectorAll(".custom-accordion-header");
-        const contents = document.querySelectorAll(".custom-accordion-content");
-        const allPrevBtns = document.querySelectorAll(".prevBtn");
-        const allNextBtns = document.querySelectorAll(".nextBtn");
-
-        let currentIndex = 0;
-
-        function openSection(index) {
-          contents.forEach((content, i) => {
-            if (i === index) {
-              content.style.maxHeight = "100%";
-              headers[i].classList.add("active");
-            } else {
-              content.style.maxHeight = null;
-              headers[i].classList.remove("active");
-            }
-          });
-          updateButtons(index);
-        }
-
-        function updateButtons(index) {
-          allPrevBtns.forEach((btn, i) => {
-            btn.disabled = i !== index && i < index;
-          });
-          allNextBtns.forEach((btn, i) => {
-            btn.disabled = i !== index && i > index;
-          });
-        }
-
-        headers.forEach((header, index) => {
-          header.addEventListener("click", () => {
-            openSection(index);
-            currentIndex = index;
-          });
-        });
-
-        allPrevBtns.forEach((btn, index) => {
-          btn.addEventListener("click", () => {
-            if (currentIndex > 0) {
-              currentIndex--;
-              openSection(currentIndex);
-            }
-          });
-        });
-
-        allNextBtns.forEach((btn, index) => {
-          btn.addEventListener("click", () => {
-            if (currentIndex < contents.length - 1) {
-              currentIndex++;
-              openSection(currentIndex);
-            }
-          });
-        });
-
-        openSection(0);
-      }
-
-      function addField() {
-        const row = document.getElementById("fields-container").children.length + 1;
-        const container = document.getElementById("fields-container");
-        const fieldDiv = document.createElement("div");
-        const removeButton = document.createElement("button");
-        removeButton.textContent = "X";
-        removeButton.classList.add("remove-button");
-        const newField = document.createElement("span");
-        newField.innerHTML = `
-        <div class="col-1">
-          <input type="text" id="editable-label-addrow-${row}" class="custom-input-label" value="Name">
-        </div>
-        <input type="text" id="input-field-addrow-${row}" class="custom-input" placeholder="Enter Name">
-        `;
-
-        removeButton.onclick = function () {
-          container.removeChild(fieldDiv);
-        };
-
-        fieldDiv.appendChild(removeButton);
-        fieldDiv.appendChild(newField);
-        container.appendChild(fieldDiv);
-
-        const labelInputAddRow = document.getElementById(
-          "editable-label-addrow-" + row
-        );
-        const inputFieldAddRow = document.getElementById(
-          "input-field-addrow-" + row
-        );
-
-        labelInputAddRow.addEventListener("input", function () {
-          inputFieldAddRow.placeholder = `Enter ${labelInputAddRow.value} `;
-        });
+    <div class="input-group">
+      <input type="checkbox" class="toggle-checkbox" id="toggle-${config.id}" />
+      <label class="toggle-label" for="toggle-${config.id}">
+        <span class="toggle-slider"></span>
+      </label>
+      <label class="editable-label" for="label-${config.id}">&#9998;</label>
+      <input type="text" class="editable-label-input" value="${config.title}" id="label-${config.id}" />
+    </div>
+    <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
+    `;
       }
 
       function renderSubmitButton() {
-        return `<div class="text-right"><button class="btn btn-primary form-submit-button" type="submit">Submit</button></div>`;
-      }
-
-      function toggleBtn() {
-        const inputGroups = document.querySelectorAll(".input-group");
-        inputGroups.forEach((group) => {
-          const labelInput = group.querySelector(".editable-label-input");
-          const inputField = group.nextElementSibling;
-          const checkbox = group.querySelector(".toggle-checkbox");  
-          inputField.addEventListener("input", function () {
-            checkbox.checked = true;
-          });
-          labelInput.addEventListener("input", function () {
-            inputField.placeholder = `Enter ${labelInput.value}`;
-          });
-          const toggleLabel = group.querySelector(".toggle-label");
-          toggleLabel.addEventListener("click", function () {
-            checkbox.checked = !checkbox.checked;
-          });
-        });
+        return `<div class="text-right"><button id="form-submit-button" type="submit">Submit</button></div>`;
       }
 
       function addEventHandlers() {
@@ -443,8 +444,7 @@
           .on("focusout", ".custom-input", handleInputChange)
           .on("focusout", ".editable-label-input", handleInputChange)
           .on("focusout", ".toggle-checkbox", handleInputChange)
-          // .trigger("change")
-          .on("click", ".form-submit-button", handleSubmit);
+          .on("click", "#form-submit-button", handleSubmit);
       }
 
       function handleInputChange(event) {
@@ -456,14 +456,30 @@
       }
 
       function handleSubmit(event) {
-        config.onValidSubmit && config.onValidSubmit(formState);
+        validateAll();
+        if (!isFormValid()) {
+          event.preventDefault();
+        } else {
+          config.onValidSubmit && config.onValidSubmit(formState);
+        }
+      }
+
+      function validateAll() {
+        Object.keys(formState).map(validateField);
+      }
+
+      function isFormValid() {
+        var valid = true;
+        Object.keys(formState).map(function (id) {
+          if (formErrors[id]) {
+            valid = false;
+          }
+        });
+        return valid;
       }
 
       (function init() {
         renderForm();
-        accordionBtn();
-        toggleBtn();
-        addField();
         addEventHandlers();
       })();
     }
