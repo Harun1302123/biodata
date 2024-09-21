@@ -193,6 +193,13 @@
   .toggle-checkbox:checked + .toggle-label .toggle-slider:before {
     transform: translateX(26px);
   }
+
+  #form-submit-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 40px;
+    font-size: 20px;
+  }
 </style>
 </head>
 <body>
@@ -338,20 +345,48 @@
         title: "Personal Details",
         inputs: [
           {
-            title: "full",
-            id: "input-full",
+            title: "Name",
+            id: "name",
             type: "text",
+          },{
+            title: "Date of Birth",
+            id: "dob",
+            type: "date",
+          },{
+            title: "Time of Birth",
+            id: "tob",
+            type: "time",
           },
         ],
       },
       {
         id: "section2",
         color: "red",
-        title: "Title",
+        title: "Family Details",
         inputs: [
           {
-            title: "Ex 1",
-            id: "input-ex1",
+            title: "Father Name",
+            id: "fatherName",
+            type: "text",
+          },{
+            title: "Father Occupation",
+            id: "fatherOccupation",
+            type: "text",
+          },{
+            title: "Mother Name",
+            id: "motherName",
+            type: "text",
+          },
+        ],
+      },
+      {
+        id: "section3",
+        color: "blue",
+        title: "Education Details",
+        inputs: [
+          {
+            title: "School Name",
+            id: "schoolName",
             type: "text",
           },
         ],
@@ -375,12 +410,12 @@
         }, {});
       }
 
-      function renderInput(config) {
+      function renderInput(config, section) {
         var renderMethods = {
           text: renderTextInput,
         };
         var renderMethod = renderMethods[config.type] || renderMethods.text;
-        return renderMethod(config);
+        return renderMethod(config, section);
       }
 
       function renderForm() {
@@ -396,9 +431,10 @@
               <button type="button" class="custom-accordion-header" style="background-color: ${section.color}">
                 ${section.title}
               </button>
+              <input type="hidden" class="item-title" id="item--${section.id}" value="${section.title}" />
               <div class="custom-accordion-content">
                 <div class="accordion-content-body">
-                  ${section.inputs.map(renderInput).join("")}
+                  ${section.inputs.map(input => renderInput(input, section)).join("")}
                   ${accordionBtnDiv(section.id)}
                 </div>
               </div>
@@ -422,17 +458,17 @@
         </div>`;
       }
 
-      function renderTextInput(config) {
+      function renderTextInput(config, section) {
         return `
         <div class="input-group">
           <input type="checkbox" class="toggle-checkbox" id="toggle-${config.id}" />
           <label class="toggle-label" for="toggle-${config.id}">
             <span class="toggle-slider"></span>
           </label>
-          <label class="editable-label" for="label-${config.id}">&#9998;</label>
-          <input type="text" class="editable-label-input" value="${config.title}" id="label-${config.id}" />
+          <label class="editable-label" for="${section.id+"--"+config.id}-label">&#9998;</label>
+          <input type="text" class="editable-label-input" value="${config.title}" id="${section.id+"--"+config.id}-label" />
         </div>
-        <input type="${config.type}" class="custom-input" id="${config.id}" placeholder="Enter ${config.title}" />
+        <input type="${config.type}" class="custom-input" id="${section.id+"--"+config.id}-value" placeholder="Enter ${config.title}" />
         `;
       }
 
@@ -441,7 +477,7 @@
       }
 
       function initializeFormState() {
-        $(`#${containerId} .custom-input, #${containerId} .editable-label-input, #${containerId} .toggle-checkbox`).each(function () {
+        $(`#${containerId} .custom-input, #${containerId} .editable-label-input, #${containerId} .item-title`).each(function () {
           const id = $(this).attr('id');
           let value;
 
@@ -459,7 +495,8 @@
         $(`#${containerId}`)
           .on("focusout", ".custom-input", handleInputChange)
           .on("focusout", ".editable-label-input", handleInputChange)
-          .on("change", ".toggle-checkbox", handleCheckboxChange)
+          .on("focusout", ".item-title", handleInputChange)
+          // .on("change", ".toggle-checkbox", handleCheckboxChange)
           .on("click", "#form-submit-button", handleSubmit);
       }
 
