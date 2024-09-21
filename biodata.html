@@ -205,8 +205,7 @@
         <div class="template1" id="biodata">
           <div class="profile-section">
             <img
-              id="profileImage"
-              src="https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
+              id="profilePhoto"
               alt="Profile Photo"
             />
           </div>
@@ -221,6 +220,12 @@
 <!-- Include html2pdf.js library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script>
+
+  const savedProfilePicture = sessionStorage.getItem('profilePicture');
+  const profilePhoto = document.getElementById('profilePhoto'); 
+  if (savedProfilePicture) {
+      profilePhoto.src = savedProfilePicture;
+  }
   function transformInput(input) {
     const result = [];
 
@@ -377,7 +382,7 @@
   const imageUrl =
     "https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg";
   convertImageToBase64(imageUrl, function (base64Image) {
-    document.getElementById("profileImage").src = base64Image;
+    // document.getElementById("profileImage").src = base64Image;
   });
 </script>
 </body>

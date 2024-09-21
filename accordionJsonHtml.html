@@ -201,11 +201,101 @@
     font-size: 20px;
   }
 </style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+<style>
+    #uploaded-image {
+        max-width: 100%;
+        display: none;
+    }
+    #final-preview {
+        margin-top: 10px;
+        border: 1px solid #000;
+    }
+    #cropper-wrapper {
+        width: 350px;
+        height: 250px;
+        position: relative;
+        overflow: hidden;
+        background: #f3f3f3;
+        border: 1px solid #ccc;
+    }
+</style>
 </head>
 <body>
 <div id="form-container"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  function handleCropper() {
+    let uploadedImage = document.getElementById('uploaded-image');
+    let cropBtn = document.getElementById('crop-btn');
+    let finalPreview = document.getElementById('final-preview');
+    let cropper = null;
+
+    // make final preview hide
+    finalPreview.style.display = 'none';
+
+    // Handle image upload
+    document.getElementById('image-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            uploadedImage.src = e.target.result;
+            uploadedImage.style.display = 'block';  // Show the image
+
+            // Destroy previous cropper instance if it exists
+            if (cropper) {
+                cropper.destroy();
+            }
+
+            // Initialize Cropper.js on the uploaded image
+            cropper = new Cropper(uploadedImage, {
+                viewMode: 1, // Fit the image within the container
+                dragMode: 'move', // Allow the user to move the image
+                autoCropArea: 1, // Ensure the crop box takes full area by default
+                responsive: true, // Ensure responsiveness within container
+                aspectRatio: 1, // Set a square crop area for circular shape
+                background: false, // Hide the background color
+                cropBoxResizable: false, // Crop box is not resizable
+                ready() {
+                    // Set the crop box to be a square for a round crop
+                    cropper.setCropBoxData({
+                        width: 200,
+                        height: 200
+                    });
+                }
+            });
+        };
+
+        reader.readAsDataURL(file); // Read the image
+    });
+
+    // Handle cropping and final preview
+    cropBtn.addEventListener('click', function() {
+        finalPreview.style.display = 'block';
+        if (cropper) {
+            const canvas = cropper.getCroppedCanvas({
+                width: 200,  // Final cropped width (matching the circular area)
+                height: 200, // Final cropped height (matching the circular area)
+            });
+
+            // Get the data URL of the cropped image
+            const croppedImageUrl = canvas.toDataURL();
+
+            // Set the cropped image URL in the final preview
+            finalPreview.src = croppedImageUrl;
+
+            sessionStorage.setItem('profilePicture', croppedImageUrl);
+        }
+    });
+  }
+
+</script>
+
+
 <script>
   function addField(id) {
     const container = document.getElementById("fields-container-" + id);
@@ -306,6 +396,7 @@
 
     openSection(0);
   }
+  
   function toggleBtn() {
     const inputGroups = document.querySelectorAll(".input-group");
     inputGroups.forEach((group) => {
@@ -320,7 +411,7 @@
       });
       const toggleLabel = group.querySelector(".toggle-label");
       toggleLabel.addEventListener("click", function () {
-        checkbox.checked = !checkbox.checked;
+        !checkbox.checked;
       });
     });
   }
@@ -329,6 +420,7 @@
     formBuilder.buildForm("form-container", configuration);
     accordionBtn();
     toggleBtn();
+    handleCropper();
   });
 
   var configuration = {
@@ -444,8 +536,44 @@
         });
 
         $form.append($accordion);
+        $form.append(profilePictureAccordion());
         $form.append(renderSubmitButton());
         $(`#${containerId}`).html($form);
+      }
+
+      function profilePictureAccordion() {
+        return `
+        <div class="custom-accordion-item" id="profile-picture">
+          <button
+            type="button"
+            class="custom-accordion-header"
+            style="background-color: rgb(230, 91, 11)"
+          >
+            Single/Multiple Photo
+          </button>
+          <div class="custom-accordion-content">
+            
+            <p>NOTE: Adding photo will increase the File Size of the Biodata. It is recommended to use medium resolution photo.</p>
+            
+            <input type="file" id="image-upload" accept="image/*">
+            <br><br>
+
+            <div id="cropper-wrapper">
+              <img id="uploaded-image">
+            </div>
+            <br>
+            <button type="button" id="crop-btn">Crop Image</button>
+
+            <img id="final-preview" alt="Cropped Image">
+
+            <div class="navigation-buttons">
+              <button type="button" class="prevBtn">Previous</button>
+            </div>
+            <br><br>
+
+          </div>
+        </div>
+        `;
       }
 
       function accordionBtnDiv(id) {
