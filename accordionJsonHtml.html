@@ -204,96 +204,87 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 <style>
-    #uploaded-image {
-        max-width: 100%;
-        display: none;
-    }
-    #final-preview {
-        margin-top: 10px;
-        border: 1px solid #000;
-    }
-    #cropper-wrapper {
-        width: 350px;
-        height: 250px;
-        position: relative;
-        overflow: hidden;
-        background: #f3f3f3;
-        border: 1px solid #ccc;
-    }
+.cropper-wrapper {
+  width: 350px;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  background: #f3f3f3;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+#uploaded-image {
+  display: none;
+  max-width: 100%;
+}
+
+.cropper-view-box.circle, .cropper-face.circle {
+  border-radius: 50%;
+}
+
+.final-preview {
+  margin-top: 10px;
+  border: 1px solid #000;
+  max-width: 100%;
+}
+
+#rectangle-preview {
+  width: 100px;
+  height: 200px;
+}
+
+#circle-preview {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10px auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  overflow: auto;
+  margin-bottom: 100px;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
+
 </head>
 <body>
 <div id="form-container"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-  function handleCropper() {
-    let uploadedImage = document.getElementById('uploaded-image');
-    let cropBtn = document.getElementById('crop-btn');
-    let finalPreview = document.getElementById('final-preview');
-    let cropper = null;
-
-    // make final preview hide
-    finalPreview.style.display = 'none';
-
-    // Handle image upload
-    document.getElementById('image-upload').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            uploadedImage.src = e.target.result;
-            uploadedImage.style.display = 'block';  // Show the image
-
-            // Destroy previous cropper instance if it exists
-            if (cropper) {
-                cropper.destroy();
-            }
-
-            // Initialize Cropper.js on the uploaded image
-            cropper = new Cropper(uploadedImage, {
-                viewMode: 1, // Fit the image within the container
-                dragMode: 'move', // Allow the user to move the image
-                autoCropArea: 1, // Ensure the crop box takes full area by default
-                responsive: true, // Ensure responsiveness within container
-                aspectRatio: 1, // Set a square crop area for circular shape
-                background: false, // Hide the background color
-                cropBoxResizable: false, // Crop box is not resizable
-                ready() {
-                    // Set the crop box to be a square for a round crop
-                    cropper.setCropBoxData({
-                        width: 200,
-                        height: 200
-                    });
-                }
-            });
-        };
-
-        reader.readAsDataURL(file); // Read the image
-    });
-
-    // Handle cropping and final preview
-    cropBtn.addEventListener('click', function() {
-        finalPreview.style.display = 'block';
-        if (cropper) {
-            const canvas = cropper.getCroppedCanvas({
-                width: 200,  // Final cropped width (matching the circular area)
-                height: 200, // Final cropped height (matching the circular area)
-            });
-
-            // Get the data URL of the cropped image
-            const croppedImageUrl = canvas.toDataURL();
-
-            // Set the cropped image URL in the final preview
-            finalPreview.src = croppedImageUrl;
-
-            sessionStorage.setItem('profilePicture', croppedImageUrl);
-        }
-    });
-  }
-
-</script>
 
 
 <script>
@@ -412,22 +403,145 @@
       const toggleLabel = group.querySelector(".toggle-label");
       toggleLabel.addEventListener("click", function () {
         !checkbox.checked;
+        inputField.style.background = checkbox.checked ? "#eee" : "";
       });
+      inputField.addEventListener("input", function () {
+        inputField.style.background = "";
+      })
+
     });
   }
+
+  
+
+  function imageCropperHanlder() {
+    let rectImage = document.getElementById('uploaded-image-rect');
+    let circleImage = document.getElementById('uploaded-image-circle');
+    let rectCropper = null;
+    let circleCropper = null;
+    let rectanglePreview = document.getElementById('rectangle-preview');
+    let circlePreview = document.getElementById('circle-preview');
+    var modal = document.getElementById("myModal");
+    var modalFooterBtn = document.getElementById("modal-footer-btn");
+
+    rectanglePreview.style.display = 'none';
+    circlePreview.style.display = 'none';
+    modalFooterBtn.style.display = 'none';
+
+    document.getElementById('add-photo-btn').addEventListener('click', function() {
+      modal.style.display = "block";
+    });
+
+    modalFooterBtn.addEventListener('click', function() {
+      modal.style.display = "none";
+    });
+      
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        // modal.style.display = "none";
+      }
+    }
+      
+    document.getElementById('image-upload').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+          const imageSrc = e.target.result;
+          
+          rectImage.src = imageSrc;
+          circleImage.src = imageSrc;
+          rectImage.style.display = 'block';
+          circleImage.style.display = 'block';
+
+          if (rectCropper) {
+              rectCropper.destroy();
+          }
+          rectCropper = new Cropper(rectImage, {
+              viewMode: 1,
+              dragMode: 'move',
+              autoCropArea: 1,
+              aspectRatio: 2 / 3, 
+              background: false
+          });
+
+          // Initialize the circle cropper
+          if (circleCropper) {
+              circleCropper.destroy();
+          }
+          circleCropper = new Cropper(circleImage, {
+              viewMode: 1,
+              dragMode: 'move',
+              autoCropArea: 1,
+              aspectRatio: 1,
+              background: false,
+              cropBoxResizable: false,
+              ready() {
+                  const cropperElement = this.cropper;
+                  const cropperWrapper = cropperElement.cropper.querySelector('.cropper-face');
+                  cropperWrapper.classList.add('circle');
+              }
+          });
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    document.getElementById('crop-rect-btn').addEventListener('click', function() {
+      rectanglePreview.style.display = 'block';
+      if (rectCropper) {
+          const canvas = rectCropper.getCroppedCanvas({
+              width: 100, 
+              height: 200, 
+          });
+          const croppedRectUrl = canvas.toDataURL();
+          rectanglePreview.src = croppedRectUrl;
+          sessionStorage.setItem('rectangleImage', croppedRectUrl);
+      }
+    });
+
+    document.getElementById('crop-circle-btn').addEventListener('click', function() {
+      circlePreview.style.display = 'block';
+      if (circleCropper) {
+          const canvas = circleCropper.getCroppedCanvas({
+              width: 200, 
+              height: 200,
+              borderRadius: "50%",
+          });
+          const croppedCircleUrl = canvas.toDataURL();
+          circlePreview.src = croppedCircleUrl;
+          sessionStorage.setItem('circleImage', croppedCircleUrl);
+      }
+    });
+
+    const savedRectangleImage = sessionStorage.getItem('rectangleImage');
+    const savedCircleImage = sessionStorage.getItem('profilePicture');
+    if (savedRectangleImage) {
+        rectanglePreview.src = savedRectangleImage;
+        modalFooterBtn.style.display = 'block';
+    }
+    if (savedCircleImage) {
+        circlePreview.src = savedCircleImage;
+        modalFooterBtn.style.display = 'block';
+    }
+  }
+
 
   $(document).ready(function () {
     formBuilder.buildForm("form-container", configuration);
     accordionBtn();
     toggleBtn();
-    handleCropper();
+    imageCropperHanlder();
   });
 
   var configuration = {
     action: "/biodata.html",
     method: "post",
     onValidSubmit: function (formState) {
-      console.log("data success!!", formState);
       sessionStorage.setItem("formData", JSON.stringify(formState));
     },
     sections: [
@@ -552,20 +666,56 @@
             Single/Multiple Photo
           </button>
           <div class="custom-accordion-content">
-            
-            <p>NOTE: Adding photo will increase the File Size of the Biodata. It is recommended to use medium resolution photo.</p>
-            
-            <input type="file" id="image-upload" accept="image/*">
-            <br><br>
 
-            <div id="cropper-wrapper">
-              <img id="uploaded-image">
+            <div style="margin: 10px auto; display: block; text-align: center;">
+              <p>Do you want to Add Photo ?</p>
+              <button type="button" id="add-photo-btn">Yes</button>
+              <button type="button" style="background: orange">No</button>
+              <p style="font-style: italic">NOTE: Adding photo will increase the File Size of the Biodata. It is recommended to use medium resolution photo.</p>
             </div>
-            <br>
-            <button type="button" id="crop-btn">Crop Image</button>
 
-            <img id="final-preview" alt="Cropped Image">
+            <div id="myModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
 
+                <div id="image-cropper-container">
+                  <h2>Profile Photo</h2>
+                  <img src="https://createmybiodata.com/upload-profile-photo-icon.jpg" />
+                  <br><br><br>
+                  <input type="file" id="image-upload" accept="image/*">
+                  <br>
+                  
+                  <div style="display: flex;">
+                    <div style="width: 50%;">
+                      <h3>Rectangle Cropper</h3>
+                      <div id="rectangle-cropper" class="cropper-wrapper">
+                          <img id="uploaded-image-rect">
+                      </div>
+                      <button type="button" id="crop-rect-btn">Crop Rectangle</button>
+                      <br>
+                      <img id="rectangle-preview" class="final-preview" alt="Rectangle Cropped Image">
+                    </div>
+        
+                    <div style="width: 50%;">
+                      <h3>Circle Cropper</h3>
+                      <div id="circle-cropper" class="cropper-wrapper">
+                          <img id="uploaded-image-circle">
+                      </div>
+                      <button type="button" id="crop-circle-btn">Crop Circle</button>
+                      <br>
+                      <img id="circle-preview" class="final-preview" alt="Circle Cropped Image">
+                    </div>
+                  </div>
+      
+                </div>
+                <br>
+
+                <button type="button" id="modal-footer-btn" style="float: right">Done</button>  
+                
+              </div>
+            </div>
+
+            <br><br>
             <div class="navigation-buttons">
               <button type="button" class="prevBtn">Previous</button>
             </div>
@@ -641,11 +791,10 @@
       }
 
       function handleSubmit(event) {
-        // validateAll();
-        if (!isFormValid()) {
-          event.preventDefault();
-        } else {
+        if (confirm("Are you sure you want to submit the form?")) {
           config.onValidSubmit && config.onValidSubmit(formState);
+        } else {
+          return false;
         }
       }
 
