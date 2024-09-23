@@ -277,6 +277,111 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.symbols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.symbols img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preview {
+  border: 1px solid #ccc;
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.preview h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #3aa69d;
+}
+
+.preview-symbol {
+  margin-top: 20px;
+}
+
+.preview-symbol img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.preview .bio-data {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #777;
+}
+
+.bio-data div {
+  width: 80%;
+  height: 10px;
+  background-color: #e0e0e0;
+  margin: 10px 0;
+}
+
+.custom-dropdown {
+  width: 60%;
+  display: inline-block;
+  margin: 2px;
+}
+
+.custom-dropdown-button {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  width: 57%;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.dropdown-options div {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width: 90%;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-options div:hover {
+  background-color: #e0e0e0;
+}
+
+.dropdown-options img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
 </style>
 
 </head>
@@ -530,12 +635,67 @@
     }
   }
 
+  function iconModal() {    
+    var modal = document.getElementById("iconModal");
+    var btn = document.getElementById("change-icon");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {      
+      modal.style.display = "block";
+    }
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    var showSymbols = document.getElementsByClassName("showSymbol");
+
+    for (var i = 0; i < showSymbols.length; i++) {
+      showSymbols[i].addEventListener('click', function() {
+        const previewSymbol = document.getElementById('preview-symbol');
+        previewSymbol.innerHTML = `<img src="${this.src}" alt="Selected Symbol">`;
+      });
+    }
+    
+  }
+
+
+  function customSelectDropdown() {
+    const dropdownButton = document.querySelector('.custom-dropdown-button');
+    const optionsContainer = document.querySelector('.dropdown-options');
+
+    dropdownButton.addEventListener('click', function() {
+      const isOpen = optionsContainer.style.display === 'block';
+      optionsContainer.style.display = isOpen ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.custom-dropdown')) {
+        optionsContainer.style.display = 'none';
+      }
+    });
+
+    document.querySelectorAll('.dropdown-options div').forEach(option => {
+      option.addEventListener('click', function() {
+        const selectedValue = this.getAttribute('data-value');
+        dropdownButton.textContent = this.textContent.trim();
+        optionsContainer.style.display = 'none';
+      });
+    });
+  }
+
 
   $(document).ready(function () {
     formBuilder.buildForm("form-container", configuration);
     accordionBtn();
     toggleBtn();
     imageCropperHanlder();
+    iconModal();
+    customSelectDropdown();
   });
 
   var configuration = {
@@ -563,6 +723,57 @@
             id: "tob",
             type: "time",
           },
+          {
+            title: "Rashi",
+            id: "rashi",
+            type: "select",
+            custom: true,
+            options: [
+              { "text": "Mesh (Aries)", "value": "black", "image": "https://via.placeholder.com/30" },
+              { "text": "Vrishabha (Taurus)", "value": "indian", "image": "https://via.placeholder.com/30" },
+              { "text": "Mithuna (Gemini)", "value": "others", "image": "https://via.placeholder.com/30" },
+              { "text": "Karka (Cancer)", "value": "black", "image": "https://via.placeholder.com/30" },
+              { "text": "Simha (Leo)", "value": "indian", "image": "https://via.placeholder.com/30" },
+              { "text": "Kanya (Virgo)", "value": "others", "image": "https://via.placeholder.com/30" },
+            ]
+          },
+          {
+          title: "Nakshatra",
+          id: "nakshatra",
+          type: "select",
+          custom: false,
+          options: [
+              { text: "Aswini", value: "value_1" },
+              { text: "Bharani", value: "value_2" },
+              { text: "Krittika", value: "value_3" },
+              { text: "Rohini", value: "value_4" },
+              { text: "Mrigasira", value: "value_5" },
+            ]
+          },
+          {
+          title: "Height",
+          id: "height",
+          type: "select",
+          custom: false,
+          options: [
+            { text: "3 feet 5 inches", value: "value_1" },
+            { text: "3 feet 6 inches", value: "value_2" },
+            { text: "3 feet 7 inches", value: "value_3" },
+            { text: "3 feet 8 inches", value: "value_4" },
+            { text: "4 feet 5 inches", value: "value_1" },
+            { text: "4 feet 6 inches", value: "value_2" },
+            { text: "4 feet 7 inches", value: "value_3" },
+            { text: "4 feet 8 inches", value: "value_4" },
+            { text: "5 feet 5 inches", value: "value_1" },
+            { text: "5 feet 6 inches", value: "value_2" },
+            { text: "5 feet 7 inches", value: "value_3" },
+            { text: "5 feet 8 inches", value: "value_4" },
+            { text: "6 feet 5 inches", value: "value_1" },
+            { text: "6 feet 6 inches", value: "value_2" },
+            { text: "6 feet 7 inches", value: "value_3" },
+            { text: "6 feet 8 inches", value: "value_4" },
+          ],
+        },
         ],
       },
       {
@@ -619,6 +830,7 @@
       function renderInput(config, section) {
         var renderMethods = {
           text: renderTextInput,
+          select: renderOptionsInput
         };
         var renderMethod = renderMethods[config.type] || renderMethods.text;
         return renderMethod(config, section);
@@ -640,6 +852,7 @@
               <input type="hidden" class="item-title" id="item--${section.id}" value="${section.title}" />
               <div class="custom-accordion-content">
                 <div class="accordion-content-body">
+                  ${firstAccordionHeader(section)}
                   ${section.inputs.map(input => renderInput(input, section)).join("")}
                   ${accordionBtnDiv(section.id)}
                 </div>
@@ -748,6 +961,126 @@
         </div>
         <input type="${config.type}" class="custom-input" id="${section.id+"--"+config.id}-value" placeholder="Enter ${config.title}" />
         `;
+      }
+
+      function renderOptionsInput(config, section) {
+        var options = config.options
+          .map(function (option) {
+            return `<option value="${option.value}">${option.text}</option>`;
+          })
+          .join("");
+
+        var selectHtml = `
+          <div class="input-group">
+            <input type="checkbox" class="toggle-checkbox" id="toggle-${config.id}" />
+            <label class="toggle-label" for="toggle-${config.id}">
+              <span class="toggle-slider"></span>
+            </label>
+            <label class="editable-label" for="${section.id+"--"+config.id}-label">&#9998;</label>
+            <input type="text" class="editable-label-input" value="${config.title}" id="${section.id+"--"+config.id}-label" />
+          </div>
+        `;
+
+        if (config.custom == true) {
+          selectHtml += renderCustomSelectInput(config);
+        }else{
+          selectHtml += `<select class="custom-input" id="${section.id+"--"+config.id}-value">${options}</select>`;
+        }
+
+        return selectHtml;
+      }
+
+      function renderCustomSelectInput(config) {
+        var options = config.options
+          .map(function (option) {
+            return `<div data-value="${option.value}"><img src="${option.image}"><span>${option.text}</span></div>`;
+          })
+          .join("");
+        return `
+        <div class="custom-dropdown">
+          <div class="custom-dropdown-button">Select ${config.title}</div>
+          <div class="dropdown-options">
+            ${options}
+          </div>
+        </div>
+        `;
+      }
+
+      function firstAccordionHeader(section) {
+        if(section.id === 'section1') {
+          return `
+          <div class="input-group" style="margin: 10px auto; display: block;">
+            <input type="checkbox" checked class="toggle-checkbox" id="toggle-11" />
+            <label class="toggle-label" for="toggle-11">
+              <span class="toggle-slider"></span>
+            </label>
+            <label class="editable-label" for="${section.id}--11-label"><span id="change-icon">&#9998;Change</span></label>
+            <input type="hidden" class="editable-label-input" id="${section.id}--11-label" disabled />
+            <img src="https://createmybiodata.com/r12.png" alt="Symbol 1" style="width: 60px; height: 60px; border-radius: 50%; background-color: white; padding: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" >
+          </div>
+          <br>
+          <div class="input-group" style="margin: 10px auto; display: block;">
+            <input type="checkbox" checked class="toggle-checkbox" id="toggle-22" />
+            <label class="toggle-label" for="toggle-22">
+              <span class="toggle-slider"></span>
+            </label>
+            <label class="editable-label" for="${section.id}--22-label">&#9998;</label>
+            <input type="text" class="editable-label-input" id="${section.id}--22-label" value="|| Shree Ganesh ||" />
+          </div>
+          <br>
+          <div class="input-group" style="margin: 10px auto; display: block;">
+            <input type="checkbox" checked class="toggle-checkbox" id="toggle-33" />
+            <label class="toggle-label" for="toggle-33">
+              <span class="toggle-slider"></span>
+            </label>
+            <label class="editable-label" for="${section.id}--33-label">&#9998;</label>
+            <input type="text" class="editable-label-input" id="${section.id}--33-label" value="BIO DATA" />
+          </div>
+          <br>
+          <input type="hidden" class="custom-input" disabled />
+
+
+          <div id="iconModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+
+              <div class="container">
+                <div class="symbols">
+                    <img src="https://createmybiodata.com/r12.png" alt="Symbol 1" class="showSymbol">
+                    <img src="https://createmybiodata.com/r13.png" alt="Symbol 2" class="showSymbol">
+                    <img src="https://createmybiodata.com/r18.png" alt="Symbol 3" class="showSymbol">
+                    <img src="https://createmybiodata.com/r1.png" alt="Symbol 1" class="showSymbol">
+                    <img src="https://createmybiodata.com/r3.png" alt="Symbol 2" class="showSymbol">
+                    <img src="https://createmybiodata.com/r5.png" alt="Symbol 3" class="showSymbol">
+                    <img src="https://createmybiodata.com/r6.png" alt="Symbol 1" class="showSymbol">
+                    <img src="https://createmybiodata.com/r2.png" alt="Symbol 2" class="showSymbol">
+                    <img src="https://createmybiodata.com/r7.png" alt="Symbol 3" class="showSymbol">
+                    <img src="https://createmybiodata.com/r8.png" alt="Symbol 1" class="showSymbol">
+                    <img src="https://createmybiodata.com/r9.png" alt="Symbol 2" class="showSymbol">
+                    <img src="https://createmybiodata.com/r19.png" alt="Symbol 3" class="showSymbol">
+                    <img src="https://createmybiodata.com/r11.png" alt="Symbol 1" class="showSymbol">
+                    <img src="https://createmybiodata.com/r16.png" alt="Symbol 2" class="showSymbol">
+                    <img src="https://createmybiodata.com/r10.png" alt="Symbol 3" class="showSymbol">
+                    <img src="https://createmybiodata.com/r14.png" alt="Symbol 3" class="showSymbol">
+                </div>
+
+                <div class="preview" style="text-align: center;">
+                    <h2>PREVIEW</h2>
+                    <div class="preview-symbol" id="preview-symbol"></div>
+                    <div class="bio-data">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          `;
+        }else {
+          return ``;
+        }
       }
 
       function renderSubmitButton() {
